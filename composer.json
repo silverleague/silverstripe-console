@@ -1,0 +1,15 @@
+{
+    "name": "silverleague/silverstripe-console",
+    "description": "A better console for SilverStripe applications",
+    "type": "silverstripe-module",
+    "require": {
+        "symfony/console": "^3.2"
+    },
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Robbie Averill",
+            "email": "robbie@silverstripe.com"
+        }
+    ]
+}
