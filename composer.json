@@ -1,5 +1,5 @@
 {
-    "name": "silverleague/silverstripe-console",
+    "name": "silverleague/console",
     "description": "A better console for SilverStripe applications",
     "type": "silverstripe-module",
     "require": {
@@ -9,7 +9,21 @@
     "authors": [
         {
             "name": "Robbie Averill",
-            "email": "robbie@silverstripe.com"
+            "email": "robbie@averill.co.nz"
         }
-    ]
+    ],
+    "bin": [
+        "bin/ssconsole"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverLeague\\Console\\": "src/",
+            "SilverLeague\\Console\\Tests\\": "tests/"
+        }
+    }
 }

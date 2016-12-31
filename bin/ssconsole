@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+/**
+ * SilverStripe Console
+ *
+ * @package silverstripe-console
+ * @author  Robbie Averill <robbie@averill.co.nz>
+ */
+
+require __DIR__ . '/../vendor/autoload.php';
+
+define('SILVERLEAGUE_CONSOLE_ROOT', __DIR__ . '/../');
+
+$scaffold = new \SilverLeague\Console\Framework\Scaffold;
+$scaffold->run();
