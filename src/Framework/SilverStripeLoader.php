@@ -2,7 +2,10 @@
 
 namespace SilverLeague\Console\Framework;
 
-use Symfony\Component\Console\Exception\RuntimeException;
+use SilverLeague\Console\Command\Composer;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Injector\Injector;
+use Symfony\Component\Console\Application;
 
 /**
  * The class responsible for loading/instantiating SilverStripe and accessing its class hierarchy, etc
@@ -12,16 +15,11 @@ use Symfony\Component\Console\Exception\RuntimeException;
  */
 class SilverStripeLoader
 {
-    /**
-     * Instantiate the connection to the SilverStripe instance
-     *
-     * @throws RuntimeException If SilverStripe could not be loaded
-     */
-    public function __construct()
+    protected $application;
+
+    public function __construct(Application $application)
     {
-        if (!$this->findSilverStripe()) {
-            throw new RuntimeException('Failed to load SilverStripe.');
-        }
+        $this->application = $application;
     }
 
     /**
@@ -31,23 +29,20 @@ class SilverStripeLoader
      */
     public function getTasks()
     {
-        return \SilverStripe\Core\ClassInfo::subclassesFor('SilverStripe\\Dev\\BuildTask');
+        $commands = [];
+        $tasks = ClassInfo::subclassesFor('SilverStripe\\Dev\\BuildTask');
+        foreach ($tasks as $taskClass) {
+            if ($taskClass === 'SilverStripe\\Dev\\BuildTask') {
+                continue;
+            }
+            $task = Injector::inst()->get($taskClass);
+            $commands[] = $this->getCommandComposer()->getCommandFromTask($task);
+        }
+        return $commands;
     }
 
-    /**
-     * Attempts to locate and include the SilverStripe core
-     *
-     * @return bool Whether or not the framework was found
-     */
-    protected function findSilverStripe()
+    public function getCommandComposer()
     {
-        foreach ([getcwd(), SILVERLEAGUE_CONSOLE_ROOT . '/../'] as $rootFolder) {
-            if (file_exists($rootFolder . '/framework/src/Core/Core.php')) {
-                require_once $rootFolder . '/vendor/autoload.php';
-                require_once $rootFolder . '/framework/src/Core/Core.php';
-                return true;
-            }
-        }
-        return false;
+        return new Composer;
     }
 }

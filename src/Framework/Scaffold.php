@@ -41,7 +41,7 @@ class Scaffold
     public function __construct()
     {
         $this->setApplication(new Application);
-        $this->setLoader(new SilverStripeLoader);
+        $this->setLoader(new SilverStripeLoader($this->getApplication()));
         $this->scaffoldApplication();
     }
 
@@ -110,9 +110,8 @@ class Scaffold
         $this->getApplication()->setName(self::APPLICATION_NAME);
         $this->getApplication()->setVersion(self::APPLICATION_VERSION);
 
-        foreach ($this->getLoader()->getTasks() as $task) {
-            // $this->getApplication()->add($)
-            var_dump(($task));
+        foreach ($this->getLoader()->getTasks() as $command) {
+            $this->getApplication()->add($command);
         }
 
         return $this;

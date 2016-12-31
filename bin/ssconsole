@@ -9,7 +9,20 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-define('SILVERLEAGUE_CONSOLE_ROOT', __DIR__ . '/../');
+// Get SilverStripe
+$loaded = false;
+foreach ([getcwd(), __DIR__ . '/../'] as $rootFolder) {
+    if (file_exists($rootFolder . '/framework/src/Core/Core.php')) {
+        require_once $rootFolder . '/vendor/autoload.php';
+        require_once $rootFolder . '/framework/src/Core/Core.php';
+        $loaded = true;
+    }
+}
+
+if (!$loaded) {
+    echo 'A SilverStripe installation could not be found. Please run ssconsole from your SilverStripe root.', PHP_EOL;
+    exit;
+}
 
 $scaffold = new \SilverLeague\Console\Framework\Scaffold;
 $scaffold->run();
