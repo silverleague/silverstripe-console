@@ -16,7 +16,14 @@ class Scaffold extends ConsoleBase
      * The application name
      * @var string
      */
-    const APPLICATION_NAME = 'SilverStripe Console';
+    const APPLICATION_NAME = <<<NAME
+     _____ __             __                            _____                   __
+    / __(_) /  _____ ____/ /  ___ ___ ____ ___ _____   / ___/__  ___  ___ ___  / /__
+   _\ \/ / / |/ / -_) __/ /__/ -_) _ `/ _ `/ // / -_) / /__/ _ \/ _ \(_-</ _ \/ / -_)
+  /___/_/_/|___/\__/_/ /____/\__/\_,_/\_, /\_,_/\__/  \___/\___/_//_/___/\___/_/\__/
+                                     /___/
+
+NAME;
 
     /**
      * The application version (semver)
@@ -81,7 +88,7 @@ class Scaffold extends ConsoleBase
     protected function scaffoldApplication()
     {
         $this->getApplication()->setName(self::APPLICATION_NAME);
-        $this->getApplication()->setVersion(self::APPLICATION_VERSION);
+        $this->getApplication()->setVersion('Version ' . self::APPLICATION_VERSION);
 
         foreach ($this->getLoader()->getTasks() as $command) {
             $this->getApplication()->add($command);
