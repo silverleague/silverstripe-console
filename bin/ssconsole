@@ -24,5 +24,10 @@ if (!$loaded) {
     exit;
 }
 
+global $databaseConfig;
+if ($databaseConfig) {
+    \SilverStripe\ORM\DB::connect($databaseConfig);
+}
+
 $scaffold = new \SilverLeague\Console\Framework\Scaffold;
 $scaffold->run();

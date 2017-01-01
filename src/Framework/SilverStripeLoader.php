@@ -2,10 +2,9 @@
 
 namespace SilverLeague\Console\Framework;
 
-use SilverLeague\Console\Command\Composer;
+use SilverLeague\Console\Command\Factory;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
-use Symfony\Component\Console\Application;
 
 /**
  * The class responsible for loading/instantiating SilverStripe and accessing its class hierarchy, etc
@@ -13,15 +12,8 @@ use Symfony\Component\Console\Application;
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
-class SilverStripeLoader
+class SilverStripeLoader extends ConsoleBase
 {
-    protected $application;
-
-    public function __construct(Application $application)
-    {
-        $this->application = $application;
-    }
-
     /**
      * Return a set of Tasks from SilverStripe
      *
@@ -31,18 +23,25 @@ class SilverStripeLoader
     {
         $commands = [];
         $tasks = ClassInfo::subclassesFor('SilverStripe\\Dev\\BuildTask');
+
+        // Remove the BuildTask itself
+        array_shift($tasks);
+
         foreach ($tasks as $taskClass) {
-            if ($taskClass === 'SilverStripe\\Dev\\BuildTask') {
-                continue;
-            }
             $task = Injector::inst()->get($taskClass);
-            $commands[] = $this->getCommandComposer()->getCommandFromTask($task);
+            $commands[] = $this->getCommandFactory()->getCommandFromTask($task);
         }
+
         return $commands;
     }
 
-    public function getCommandComposer()
+    /**
+     * Get a new command factory instance to generate the console Command
+     *
+     * @return Factory
+     */
+    public function getCommandFactory()
     {
-        return new Composer;
+        return new Factory($this->getApplication());
     }
 }

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Application;
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
-class Scaffold
+class Scaffold extends ConsoleBase
 {
     /**
      * The application name
@@ -25,22 +25,17 @@ class Scaffold
     const APPLICATION_VERSION = '0.1.0';
 
     /**
-     * The Symfony console application
-     * @var Application
-     */
-    protected $application;
-
-    /**
      * The SilverStripe Loader class
      * @var SilverStripeLoader
      */
+    protected $loader;
 
     /**
      * Instantiate the console Application
      */
     public function __construct()
     {
-        $this->setApplication(new Application);
+        parent::__construct(new Application);
         $this->setLoader(new SilverStripeLoader($this->getApplication()));
         $this->scaffoldApplication();
     }
@@ -54,28 +49,6 @@ class Scaffold
     public function run()
     {
         return $this->getApplication()->run();
-    }
-
-    /**
-     * Set the Application into the scaffold
-     *
-     * @param  Application $application
-     * @return self
-     */
-    public function setApplication(Application $application)
-    {
-        $this->application = $application;
-        return $this;
-    }
-
-    /**
-     * Get the Symfony console Application
-     *
-     * @return Application
-     */
-    public function getApplication()
-    {
-        return $this->application;
     }
 
     /**
