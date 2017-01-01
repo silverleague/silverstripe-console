@@ -1,0 +1,73 @@
+<?php
+
+namespace SilverLeague\Console\Command\Member;
+
+use SilverLeague\Console\Command\SilverStripeCommand;
+use SilverStripe\Security\Member;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
+
+/**
+ * Create a new member, and optionally add them to groups and roles.
+ *
+ * @package silverstripe-console
+ * @author  Robbie Averill <robbie@averill.co.nz>
+ */
+class CreateCommand extends SilverStripeCommand
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected function configure()
+    {
+        $this
+            ->setName('member:create')
+            ->setDescription('Create a new member, and optionally add them to groups and roles.')
+            ->addArgument('email', InputArgument::OPTIONAL, 'Email address')
+            ->addArgument('username', InputArgument::OPTIONAL, 'Username')
+            ->addArgument('password', InputArgument::OPTIONAL, 'Password')
+            ->addArgument('firstname', InputArgument::OPTIONAL, 'First name')
+            ->addArgument('surname', InputArgument::OPTIONAL, 'Surname');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $data = [
+            'Email'     => $this->getOrAskForArgument($input, $output, 'email', 'Email address: '),
+            'Username'  => $this->getOrAskForArgument($input, $output, 'username', 'Username: '),
+            'Password'  => $this->getOrAskForArgument($input, $output, 'password', 'Password: '),
+            'FirstName' => $this->getOrAskForArgument($input, $output, 'firstname', 'First name: '),
+            'Surname'   => $this->getOrAskForArgument($input, $output, 'surname', 'Surname: ')
+        ];
+        if (empty($data['Email']) || empty($data['Username']) || empty($data['Password'])) {
+            $output->writeln('<error>Please enter an email, username and password.</error>');
+            return;
+        }
+
+        $member = Member::create();
+        foreach ($data as $key => $value) {
+            $member->setField($key, $value);
+        }
+        $member->write();
+
+        $output->writeln('<info>Member created.</info>');
+
+        $setRoles = new Question('Do you want to set roles and groups now?', 'yes');
+        if ($this->getHelper('question')->ask($input, $output, $setRoles)) {
+            $command = $this->getApplication()->find('member:change-groups');
+            $command->run(
+                new ArrayInput([
+                    'command' => 'member:change-groups',
+                    'email'   => $data['Email']
+                ]),
+                $output
+            );
+        }
+    }
+}

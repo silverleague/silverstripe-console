@@ -94,7 +94,9 @@ NAME;
             $this->getApplication()->add($command);
         }
 
+        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\ChangeGroupsCommand);
         $this->getApplication()->add(new \SilverLeague\Console\Command\Member\ChangePasswordCommand);
+        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\CreateCommand);
 
         return $this;
     }

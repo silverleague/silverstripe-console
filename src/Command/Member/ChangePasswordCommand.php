@@ -8,6 +8,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Change a member's password
+ *
+ * @package silverstripe-console
+ * @author  Robbie Averill <robbie@averill.co.nz>
+ */
 class ChangePasswordCommand extends SilverStripeCommand
 {
     /**

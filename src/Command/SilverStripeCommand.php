@@ -33,6 +33,16 @@ class SilverStripeCommand extends Command
         $this->addOption('flush', 'f', null, 'Flush SilverStripe cache and manifest.');
     }
 
+    /**
+     * Retrieve an argument from the input interface, or use the Question helper to ask for input
+     * if it wasn't provided. Will automatically hide input for password fields.
+     *
+     * @param  InputInterface  $input
+     * @param  OutputInterface $output
+     * @param  string          $key      The argument key, e.g. "username"
+     * @param  string          $question The question to ask, e.g. "Which username: "
+     * @return string|null
+     */
     protected function getOrAskForArgument(InputInterface $input, OutputInterface $output, $key, $question)
     {
         if ($supplied = $input->getArgument($key)) {
