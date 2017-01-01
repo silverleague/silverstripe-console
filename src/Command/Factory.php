@@ -2,6 +2,7 @@
 
 namespace SilverLeague\Console\Command;
 
+use SilverLeague\Console\Command\Dev\Tasks\AbstractTaskCommand;
 use SilverLeague\Console\Framework\ConsoleBase;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
@@ -30,7 +31,7 @@ class Factory extends ConsoleBase
             return false;
         }
 
-        $command = new SilverStripeCommand($this->getCommandName($task));
+        $command = new AbstractTaskCommand($this->getCommandName($task));
         $command->setApplication($this->getApplication());
         $command->setTask($task);
         $command->setDescription($task->getTitle());

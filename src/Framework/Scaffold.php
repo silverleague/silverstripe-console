@@ -17,11 +17,11 @@ class Scaffold extends ConsoleBase
      * @var string
      */
     const APPLICATION_NAME = <<<NAME
-     _____ __             __                            _____                   __
-    / __(_) /  _____ ____/ /  ___ ___ ____ ___ _____   / ___/__  ___  ___ ___  / /__
-   _\ \/ / / |/ / -_) __/ /__/ -_) _ `/ _ `/ // / -_) / /__/ _ \/ _ \(_-</ _ \/ / -_)
-  /___/_/_/|___/\__/_/ /____/\__/\_,_/\_, /\_,_/\__/  \___/\___/_//_/___/\___/_/\__/
-                                     /___/
+   _____ __             ______      _            _____                   __
+  / __(_) /  _____ ____/ __/ /_____(_)__  ___   / ___/__  ___  ___ ___  / /__
+ _\ \/ / / |/ / -_) __/\ \/ __/ __/ / _ \/ -_) / /__/ _ \/ _ \(_-</ _ \/ / -_)
+/___/_/_/|___/\__/_/ /___/\__/_/ /_/ .__/\__/  \___/\___/_//_/___/\___/_/\__/
+                                  /_/
 
 NAME;
 
@@ -93,6 +93,8 @@ NAME;
         foreach ($this->getLoader()->getTasks() as $command) {
             $this->getApplication()->add($command);
         }
+
+        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\ChangePasswordCommand);
 
         return $this;
     }

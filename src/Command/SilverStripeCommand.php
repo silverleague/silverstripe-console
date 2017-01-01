@@ -6,6 +6,10 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\BuildTask;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * A slightly embellished Symfony Command class which is SilverStripe aware
@@ -15,13 +19,6 @@ use Symfony\Component\Console\Command\Command;
  */
 class SilverStripeCommand extends Command
 {
-    /**
-     * Contains the SilverStripe BuildTask used for this command, if imported from SilverStripe
-     *
-     * @var BuildTask
-     */
-    protected $buildTask;
-
     /**
      * Add a set of default SilverStripe options to all commands
      *
@@ -36,26 +33,19 @@ class SilverStripeCommand extends Command
         $this->addOption('flush', 'f', null, 'Flush SilverStripe cache and manifest.');
     }
 
-    /**
-     * Get the original SilverStrpe BuildTask used
-     *
-     * @return BuildTask
-     */
-    public function getTask()
+    protected function getOrAskForArgument(InputInterface $input, OutputInterface $output, $key, $question)
     {
-        return $this->buildTask;
-    }
+        if ($supplied = $input->getArgument($key)) {
+            return $supplied;
+        }
 
-    /**
-     * Set the original SilverStripe BuildTask used
-     *
-     * @param  BuildTask $task
-     * @return self
-     */
-    public function setTask(BuildTask $task)
-    {
-        $this->buildTask = $task;
-        return $this;
+        $question = new Question($question);
+        if (stripos($key, 'password') !== false) {
+            $question->setHidden(true);
+            $question->setHiddenFallback(false);
+        }
+
+        return $this->getHelper('question')->ask($input, $output, $question);
     }
 
     /**
