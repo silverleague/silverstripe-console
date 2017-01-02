@@ -1,5 +1,7 @@
 # silverleague/silverstripe-console
 
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/)
+
 A better console for SilverStripe applications.
 
 ## Requirements
