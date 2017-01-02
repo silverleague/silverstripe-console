@@ -60,10 +60,10 @@ class Factory extends ConsoleBase
     /**
      * Get the BuildTask functionality as a closure
      *
-     * @param  SilverStripeCommand $command
+     * @param  AbstractTaskCommand $command
      * @return Closure
      */
-    public function getTaskAsClosure(SilverStripeCommand $command)
+    public function getTaskAsClosure(AbstractTaskCommand $command)
     {
         return function (InputInterface $input, OutputInterface $output) use ($command) {
             $io = new SymfonyStyle($input, $output);
