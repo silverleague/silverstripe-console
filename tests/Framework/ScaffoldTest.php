@@ -69,6 +69,7 @@ class ScaffoldTest extends \PHPUnit_Framework_TestCase
      * Test that the bootstrap method was called, initiating Bootstrap which defines this constant
      *
      * @covers ::bootstrap
+     * @covers \SilverLeague\Console\Framework\Bootstrap
      */
     public function testBootstrapWasCalled()
     {
