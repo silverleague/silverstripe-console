@@ -30,11 +30,21 @@ class ConfigurationLoader extends ConsoleBase
      */
     public function load()
     {
-        $filename = CONSOLE_BASE_DIR . '/' . self::CONFIGURATION_FILE;
+        $filename = $this->getFilePath();
         if (!file_exists($filename) || !is_readable($filename)) {
             throw new RuntimeException('The configuration YAML file does not exist!');
         }
 
         return Yaml::parse($filename);
+    }
+
+    /**
+     * Return the path to the configuration file
+     *
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return CONSOLE_BASE_DIR . '/' . self::CONFIGURATION_FILE;
     }
 }
