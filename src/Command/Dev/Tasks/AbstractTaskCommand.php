@@ -34,7 +34,7 @@ class AbstractTaskCommand extends SilverStripeCommand
      * Set the original SilverStripe BuildTask used
      *
      * @param  BuildTask $task
-     * @return self
+     * @return $this
      */
     public function setTask(BuildTask $task)
     {

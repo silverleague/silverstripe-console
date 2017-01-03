@@ -86,7 +86,7 @@ NAME;
      * Set the SilverStripeLoader
      *
      * @param  SilverStripeLoader $loader
-     * @return self
+     * @return $this
      */
     public function setSilverStripeLoader(SilverStripeLoader $loader)
     {
@@ -121,7 +121,7 @@ NAME;
      * Set the console application's configuration
      *
      * @param  array $configuration
-     * @return self
+     * @return $this
      */
     public function setConfiguration(array $configuration)
     {
@@ -143,7 +143,7 @@ NAME;
      * Set the configuration loader class
      *
      * @param  ConfigurationLoader
-     * @return self
+     * @return $this
      */
     public function setConfigurationLoader(ConfigurationLoader $loader)
     {
@@ -154,7 +154,7 @@ NAME;
     /**
      * Call the SilverStripe bootstrap class
      *
-     * @return self
+     * @return $this
      */
     protected function bootstrap()
     {
@@ -165,7 +165,7 @@ NAME;
     /**
      * Scaffold the Application, including adding all requires commands and configuration
      *
-     * @return self
+     * @return $this
      */
     protected function scaffoldApplication()
     {
@@ -189,7 +189,7 @@ NAME;
     /**
      * Adds all automatically created BuildTask Commands, and all concrete Commands from configuration
      *
-     * @return self
+     * @return $this
      */
     protected function addCommands()
     {

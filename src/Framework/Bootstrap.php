@@ -48,7 +48,7 @@ class Bootstrap
     /**
      * Get the SilverStripe DB connector
      *
-     * @return self
+     * @return $this
      */
     protected function getDb()
     {
