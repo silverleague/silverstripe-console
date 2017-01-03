@@ -1,8 +1,8 @@
 # silverleague/silverstripe-console
 
-[![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/)
+[![Travis](https://img.shields.io/travis/silverleague/silverstripe-console.svg)](https://travis-ci.org/silverleague/silverstripe-console) [![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/) [![Code coverage](https://img.shields.io/scrutinizer/coverage/g/silverleague/silverstripe-console/master.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console)
 
-A better console for SilverStripe applications.
+A useful command line interface for SilverStripe developers.
 
 ## Requirements
 
@@ -12,6 +12,8 @@ A better console for SilverStripe applications.
 
 ## Installation
 
+### With Composer
+
 It is recommended to install this module globally with composer:
 
 ```shell
@@ -19,6 +21,17 @@ composer global require silverleague/silverstripe-console
 ```
 
 Ensure your composer's `bin` folder has been added to your system path.
+
+### From source
+
+If you wish to install this module from source, you can clone the repository and symlink `bin/ssconsole` into your system path, for example:
+
+```bash
+git clone git@github.com:silverleague/silverstripe-console.git
+cd silverstripe-console
+chmod u+x bin/console
+ln -s "$(pwd)/bin/ssconsole" /usr/local/bin/ssconsole
+```
 
 ## Usage
 
@@ -32,7 +45,7 @@ To run a command, choose the desired command from the menu and add it as an argu
 
 ```shell
 # Runs a task
-ssconsole dev:tasks:CleanupTestDatabasesTask
+ssconsole dev:tasks:cleanup-test-databases
 
 # Builds the database and flushed the manifest/cache
 ssconsole dev:build --flush

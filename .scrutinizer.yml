@@ -1,0 +1,27 @@
+filter:
+  excluded_paths:
+    - 'bin/*'
+
+checks:
+  php: true
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
+
+build:
+  environment:
+    php: '7.1.0'
+  dependencies:
+    override:
+      - composer install -n
+      - composer require silverstripe/framework ^4.0@dev
+      - composer require phpunit/phpunit ^5.7
+  tests:
+    override:
+      -
+        command: 'php vendor/bin/phpunit --coverage-clover=coverage.xml'
+        coverage:
+          file: 'coverage.xml'
+          format: 'clover'
