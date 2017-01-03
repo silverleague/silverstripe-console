@@ -1,6 +1,6 @@
 # silverleague/silverstripe-console
 
-[![Travis](https://img.shields.io/travis/silverleague/silverstripe-console.svg)](https://travis-ci.org/silverleague/silverstripe-console) [![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/) [![Code coverage](https://img.shields.io/scrutinizer/coverage/g/silverleague/silverstripe-console/master.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console)
+[![Travis](https://img.shields.io/travis/silverleague/silverstripe-console.svg)](https://travis-ci.org/silverleague/silverstripe-console) [![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/) [![Code Coverage](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/?branch=master)
 
 A useful command line interface for SilverStripe developers.
 
