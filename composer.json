@@ -11,7 +11,7 @@
     ],
     "require": {
         "symfony/console": "^3.2",
-        "symfony/yaml": "^3.2"
+        "symfony/yaml": "~2.7"
     },
     "bin": [
         "bin/ssconsole"

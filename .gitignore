@@ -1,1 +1,4 @@
 /vendor/
+
+# For while unit testing
+/framework/
