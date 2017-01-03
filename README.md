@@ -22,17 +22,27 @@ Ensure your composer's `bin` folder has been added to your system path.
 
 ## Usage
 
-### Menu
+### Commands
 
-To show the console menu, run `ssconsole` from your terminal.
+To show the console menu and list of commands, run `ssconsole` from your terminal.
 
 ### Running commands
 
 To run a command, choose the desired command from the menu and add it as an argument:
 
 ```shell
+# Runs a task
 ssconsole dev:tasks:CleanupTestDatabasesTask
+
+# Builds the database and flushed the manifest/cache
+ssconsole dev:build --flush
 ```
+
+### Flushing the manifest
+
+Sometimes you need to flush SilverStripe's manifest/cache while running CLI tasks. For example, if you've added a new `BuildTask`, but it doesn't show up in the SilverStripe console yet.
+
+You can add the `--flush` option to any `ssconsole` command to instruct SilverStripe to flush and rebuild its manifest.
 
 ## License
 

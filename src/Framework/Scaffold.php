@@ -60,6 +60,11 @@ NAME;
     {
         parent::__construct(new Application);
 
+        // Handle native SilverStripe flushing
+        if (in_array('--flush', $_SERVER['argv'])) {
+            $_GET['flush'] = 1;
+        }
+
         $this->bootstrap();
         $this->setSilverStripeLoader(new SilverStripeLoader($this->getApplication()));
         $this->setConfigurationLoader(new ConfigurationLoader($this->getApplication()));
@@ -176,6 +181,18 @@ NAME;
             )
         );
 
+        $this->addCommands();
+
+        return $this;
+    }
+
+    /**
+     * Adds all automatically created BuildTask Commands, and all concrete Commands from configuration
+     *
+     * @return self
+     */
+    protected function addCommands()
+    {
         foreach ($this->getSilverStripeLoader()->getTasks() as $command) {
             $this->getApplication()->add($command);
         }
