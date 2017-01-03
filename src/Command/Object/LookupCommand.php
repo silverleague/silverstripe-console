@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Shows which class/objet is returned from the Injector
+ * Shows which Object is returned from the Injector
  *
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
@@ -23,8 +23,8 @@ class LookupCommand extends SilverStripeCommand
     {
         $this
             ->setName('object:lookup')
-            ->setDescription('Shows which class is returned from the Injector')
-            ->addArgument('class', InputArgument::REQUIRED, 'The class to look up');
+            ->setDescription('Shows which Object is returned from the Injector')
+            ->addArgument('object', InputArgument::REQUIRED, 'The Object to look up');
     }
 
     /**
@@ -32,9 +32,9 @@ class LookupCommand extends SilverStripeCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $class = $input->getArgument('class');
-        $resolvedTo = get_class(Injector::inst()->get($class));
+        $object = $input->getArgument('object');
+        $resolvedTo = get_class(Injector::inst()->get($object));
 
-        $output->writeln('<comment>' . $class . ' resolves to <info>' . $resolvedTo . '</info></comment>');
+        $output->writeln('<comment>' . $object . '</comment> resolves to <info>' . $resolvedTo . '</info>');
     }
 }

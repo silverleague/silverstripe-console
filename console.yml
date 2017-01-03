@@ -7,8 +7,9 @@
 #
 
 Commands:
-  - SilverLeague\Console\Command\Object\LookupCommand
   - SilverLeague\Console\Command\Dev\BuildCommand
   - SilverLeague\Console\Command\Member\ChangeGroupsCommand
   - SilverLeague\Console\Command\Member\ChangePasswordCommand
   - SilverLeague\Console\Command\Member\CreateCommand
+  - SilverLeague\Console\Command\Object\ExtensionsCommand
+  - SilverLeague\Console\Command\Object\LookupCommand
