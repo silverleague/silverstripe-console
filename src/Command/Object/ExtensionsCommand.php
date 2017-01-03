@@ -4,6 +4,7 @@ namespace SilverLeague\Console\Command\Object;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Object;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,7 +26,7 @@ class ExtensionsCommand extends SilverStripeCommand
         $this
             ->setName('object:extensions')
             ->setDescription('List all Extensions of a given Object, e.g. "Page"')
-            ->addArgument('object', InputArgument::REQUIRED, 'The Object to look up');
+            ->addArgument('object', InputArgument::REQUIRED, 'The Object to find Extensions for');
     }
 
     /**
@@ -34,14 +35,15 @@ class ExtensionsCommand extends SilverStripeCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $object = $input->getArgument('object');
-        $extensions = \SilverStripe\Core\Object::get_extensions($object);
+        $extensions = Object::get_extensions($object);
         if (!$extensions) {
             $output->writeln('There are no Extensions registered for ' . $object);
             return;
         }
         sort($extensions);
 
-        $isCmsClass = singleton($object) instanceof \SilverStripe\CMS\Model\SiteTree;
+        $isCmsClass = (class_exists('SilverStripe\\CMS\\Model\\SiteTree')
+            && singleton($object) instanceof \SilverStripe\CMS\Model\SiteTree);
 
         $output->writeln('<info>Extensions for ' . $object . ':</info>');
         $table = new Table($output);
