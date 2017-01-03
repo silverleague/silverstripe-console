@@ -15,7 +15,7 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * The test subject
      *
-     * @var LookupCommand
+     * @var \SilverLeague\Console\Command\SilverStripeCommand
      */
     protected $command;
 

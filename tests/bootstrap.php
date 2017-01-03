@@ -11,3 +11,11 @@ require CONSOLE_BASE_DIR . '/vendor/autoload.php';
 
 global $_FILE_TO_URL_MAPPING;
 $_FILE_TO_URL_MAPPING[CONSOLE_BASE_DIR] = 'http://localhost';
+
+global $databaseConfig;
+$databaseConfig = [
+    'type'     => 'MySQLDatabase',
+    'username' => 'root',
+    'password' => '',
+    'database' => 'console-tests'
+];

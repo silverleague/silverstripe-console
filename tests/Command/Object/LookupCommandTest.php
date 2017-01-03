@@ -2,7 +2,6 @@
 
 namespace SilverLeague\Console\Tests\Command\Object;
 
-use SilverLeague\Console\Command\Object\LookupCommand;
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
