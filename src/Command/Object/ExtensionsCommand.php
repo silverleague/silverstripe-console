@@ -59,7 +59,7 @@ class ExtensionsCommand extends SilverStripeCommand
      * @param  bool $isCmsClass
      * @return string[]
      */
-    protected function getHeaders($isCmsClass)
+    public function getHeaders($isCmsClass)
     {
         $headers = ['Class name', 'Added DB fields'];
         if ($isCmsClass) {
@@ -75,7 +75,7 @@ class ExtensionsCommand extends SilverStripeCommand
      * @param  bool $isCmsClass
      * @return array[]
      */
-    protected function getRows($isCmsClass, $extensions)
+    public function getRows($isCmsClass, $extensions)
     {
         $tableRows = [];
         foreach ($extensions as $extensionClass) {
