@@ -2,16 +2,17 @@
     "name": "silverleague/console",
     "description": "A better console for SilverStripe applications",
     "type": "silverstripe-module",
-    "require": {
-        "symfony/console": "^3.2"
-    },
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Robbie Averill",
             "email": "robbie@averill.co.nz"
         }
     ],
+    "require": {
+        "symfony/console": "^3.2",
+        "symfony/yaml": "^3.2"
+    },
     "bin": [
         "bin/ssconsole"
     ],

@@ -40,12 +40,11 @@ class CreateCommand extends SilverStripeCommand
     {
         $data = [
             'Email'     => $this->getOrAskForArgument($input, $output, 'email', 'Email address: '),
-            'Username'  => $this->getOrAskForArgument($input, $output, 'username', 'Username: '),
             'Password'  => $this->getOrAskForArgument($input, $output, 'password', 'Password: '),
             'FirstName' => $this->getOrAskForArgument($input, $output, 'firstname', 'First name: '),
             'Surname'   => $this->getOrAskForArgument($input, $output, 'surname', 'Surname: ')
         ];
-        if (empty($data['Email']) || empty($data['Username']) || empty($data['Password'])) {
+        if (empty($data['Email']) || empty($data['Password'])) {
             $output->writeln('<error>Please enter an email, username and password.</error>');
             return;
         }
@@ -58,8 +57,8 @@ class CreateCommand extends SilverStripeCommand
 
         $output->writeln('<info>Member created.</info>');
 
-        $setRoles = new Question('Do you want to set roles and groups now?', 'yes');
-        if ($this->getHelper('question')->ask($input, $output, $setRoles)) {
+        $setGroups = new Question('Do you want to assign groups now?', 'yes');
+        if ($this->getHelper('question')->ask($input, $output, $setGroups)) {
             $command = $this->getApplication()->find('member:change-groups');
             $command->run(
                 new ArrayInput([

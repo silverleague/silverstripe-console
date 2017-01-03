@@ -2,7 +2,10 @@
 
 namespace SilverLeague\Console\Framework;
 
+use SilverLeague\Console\Framework\Loader\ConfigurationLoader;
+use SilverLeague\Console\Framework\Loader\SilverStripeLoader;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * The application scaffolder
@@ -35,7 +38,20 @@ NAME;
      * The SilverStripe Loader class
      * @var SilverStripeLoader
      */
-    protected $loader;
+    protected $silverStripeLoader;
+
+    /**
+     * The Configuration Loader class
+     * @var ConfigurationLoader
+     */
+    protected $configurationLoader;
+
+    /**
+     * The application configuration
+     *
+     * @var array
+     */
+    protected $configuration;
 
     /**
      * Instantiate the console Application
@@ -43,7 +59,8 @@ NAME;
     public function __construct()
     {
         parent::__construct(new Application);
-        $this->setLoader(new SilverStripeLoader($this->getApplication()));
+        $this->setSilverStripeLoader(new SilverStripeLoader($this->getApplication()));
+        $this->setConfigurationLoader(new ConfigurationLoader($this->getApplication()));
         $this->scaffoldApplication();
     }
 
@@ -64,9 +81,9 @@ NAME;
      * @param  SilverStripeLoader $loader
      * @return self
      */
-    public function setLoader(SilverStripeLoader $loader)
+    public function setSilverStripeLoader(SilverStripeLoader $loader)
     {
-        $this->loader = $loader;
+        $this->silverStripeLoader = $loader;
         return $this;
     }
 
@@ -75,9 +92,56 @@ NAME;
      *
      * @return SilverStripeLoader
      */
-    public function getLoader()
+    public function getSilverStripeLoader()
     {
-        return $this->loader;
+        return $this->silverStripeLoader;
+    }
+
+    /**
+     * Get the console application's configuration
+     *
+     * @return array
+     */
+    public function getConfiguration()
+    {
+        if (is_null($this->configuration)) {
+            $this->setConfiguration($this->getConfigurationLoader()->load());
+        }
+        return $this->configuration;
+    }
+
+    /**
+     * Set the console application's configuration
+     *
+     * @param  array $configuration
+     * @return self
+     */
+    public function setConfiguration(array $configuration)
+    {
+        $this->configuration = $configuration;
+        return $this;
+    }
+
+    /**
+     * Get the configuration loader class
+     *
+     * @return ConfigurationLoader
+     */
+    public function getConfigurationLoader()
+    {
+        return $this->configurationLoader;
+    }
+
+    /**
+     * Set the configuration loader class
+     *
+     * @param  ConfigurationLoader
+     * @return self
+     */
+    public function setConfigurationLoader(ConfigurationLoader $loader)
+    {
+        $this->configurationLoader = $loader;
+        return $this;
     }
 
     /**
@@ -90,13 +154,22 @@ NAME;
         $this->getApplication()->setName(self::APPLICATION_NAME);
         $this->getApplication()->setVersion('Version ' . self::APPLICATION_VERSION);
 
-        foreach ($this->getLoader()->getTasks() as $command) {
+        $this->getApplication()->getDefinition()->addOption(
+            new InputOption(
+                'flush',
+                'f',
+                null,
+                'Flush SilverStripe cache and manifest'
+            )
+        );
+
+        foreach ($this->getSilverStripeLoader()->getTasks() as $command) {
             $this->getApplication()->add($command);
         }
 
-        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\ChangeGroupsCommand);
-        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\ChangePasswordCommand);
-        $this->getApplication()->add(new \SilverLeague\Console\Command\Member\CreateCommand);
+        foreach ($this->getConfiguration()['Commands'] as $commandClass) {
+            $this->getApplication()->add(new $commandClass);
+        }
 
         return $this;
     }
