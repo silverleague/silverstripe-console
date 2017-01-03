@@ -31,7 +31,7 @@ class ConsoleBase
      * Set the Application
      *
      * @param  Application $application
-     * @return self
+     * @return $this
      */
     public function setApplication(Application $application)
     {
