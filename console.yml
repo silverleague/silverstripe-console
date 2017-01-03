@@ -1,0 +1,12 @@
+#
+# silverleague/silverstripe-console: Command configuration
+#
+# - Add new commands to this file
+#
+# Note that BuildTask commands are added automatically.
+#
+
+Commands:
+  - SilverLeague\Console\Command\Member\ChangeGroupsCommand
+  - SilverLeague\Console\Command\Member\ChangePasswordCommand
+  - SilverLeague\Console\Command\Member\CreateCommand

@@ -20,20 +20,6 @@ use Symfony\Component\Console\Question\Question;
 class SilverStripeCommand extends Command
 {
     /**
-     * Add a set of default SilverStripe options to all commands
-     *
-     * {@inheritDoc}
-     *
-     * @param string $name
-     */
-    public function __construct($name = null)
-    {
-        parent::__construct($name);
-
-        $this->addOption('flush', 'f', null, 'Flush SilverStripe cache and manifest.');
-    }
-
-    /**
      * Retrieve an argument from the input interface, or use the Question helper to ask for input
      * if it wasn't provided. Will automatically hide input for password fields.
      *

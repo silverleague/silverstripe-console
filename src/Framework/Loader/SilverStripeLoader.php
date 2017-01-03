@@ -1,8 +1,9 @@
 <?php
 
-namespace SilverLeague\Console\Framework;
+namespace SilverLeague\Console\Framework\Loader;
 
 use SilverLeague\Console\Command\Factory;
+use SilverLeague\Console\Framework\ConsoleBase;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
 
