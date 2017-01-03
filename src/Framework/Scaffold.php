@@ -59,6 +59,8 @@ NAME;
     public function __construct()
     {
         parent::__construct(new Application);
+
+        $this->bootstrap();
         $this->setSilverStripeLoader(new SilverStripeLoader($this->getApplication()));
         $this->setConfigurationLoader(new ConfigurationLoader($this->getApplication()));
         $this->scaffoldApplication();
@@ -141,6 +143,17 @@ NAME;
     public function setConfigurationLoader(ConfigurationLoader $loader)
     {
         $this->configurationLoader = $loader;
+        return $this;
+    }
+
+    /**
+     * Call the SilverStripe bootstrap class
+     *
+     * @return self
+     */
+    protected function bootstrap()
+    {
+        (new Bootstrap)->initialize();
         return $this;
     }
 
