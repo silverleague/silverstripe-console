@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Tests\Command;
 
 use SilverLeague\Console\Framework\Scaffold;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * An abstract base for testing SilverStripeCommand classes
@@ -33,4 +34,19 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      * @return string
      */
     abstract public function getTestCommand();
+
+    /**
+     * Create a CommandTester and execute the command with given arguments
+     *
+     * @param  array $params
+     * @return CommandTester
+     */
+    protected function executeTest(array $params)
+    {
+        $tester = new CommandTester($this->command);
+        $tester->execute(
+            array_merge(['command'  => $this->command->getName()], $params)
+        );
+        return $tester;
+    }
 }

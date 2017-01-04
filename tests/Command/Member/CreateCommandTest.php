@@ -5,7 +5,6 @@ namespace SilverLeague\Console\Tests\Command\Member;
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Security\Member;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Member\CreateCommand
@@ -44,15 +43,12 @@ class CreateCommandTest extends AbstractCommandTest
 
         $this->command->getApplication()->getHelperSet()->set($questionHelper, 'question');
 
-        $tester = new CommandTester($this->command);
-        $tester->execute(
+        $tester = $this->executeTest(
             [
-                'command'     => $this->command->getName(),
-                'email'       => 'unittest@example.com',
-                'password'    => 'opensesame'
+                'email'    => 'unittest@example.com',
+                'password' => 'opensesame'
             ]
         );
-
         $output = $tester->getDisplay();
         $this->assertContains('Member created', $output);
     }

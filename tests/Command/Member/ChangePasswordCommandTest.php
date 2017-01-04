@@ -4,7 +4,6 @@ namespace SilverLeague\Console\Tests\Command\Member;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Security\Member;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Member\ChangePasswordCommand
@@ -42,15 +41,7 @@ class ChangePasswordCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = new CommandTester($this->command);
-        $tester->execute(
-            [
-                'command'  => $this->command->getName(),
-                'email'    => 'unittest@example.com',
-                'password' => 'newpassword'
-            ]
-        );
-
+        $tester = $this->executeTest(['email' => 'unittest@example.com', 'password' => 'newpassword']);
         $this->assertContains('Password updated', $tester->getDisplay());
     }
 
@@ -61,15 +52,7 @@ class ChangePasswordCommandTest extends AbstractCommandTest
      */
     public function testErrorWhenEmailNotFound()
     {
-        $tester = new CommandTester($this->command);
-        $tester->execute(
-            [
-                'command'  => $this->command->getName(),
-                'email'    => 'joe.unpopular@example.com',
-                'password' => 'helloworld'
-            ]
-        );
-
+        $tester = $this->executeTest(['email' => 'joe.unpopular@example.com', 'password' => 'newpassword']);
         $this->assertContains('Member with email "joe.unpopular@example.com" was not found', $tester->getDisplay());
     }
 

@@ -3,7 +3,6 @@
 namespace SilverLeague\Console\Tests\Command\Object;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Object\LookupCommand
@@ -27,14 +26,7 @@ class LookupCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = new CommandTester($this->command);
-        $tester->execute(
-            [
-                'command' => $this->command->getName(),
-                'object'  => 'Logger'
-            ]
-        );
-
+        $tester = $this->executeTest(['object'  => 'Logger']);
         $output = $tester->getDisplay();
         $this->assertContains("Monolog\Logger", $output);
     }
