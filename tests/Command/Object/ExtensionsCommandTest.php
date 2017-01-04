@@ -2,9 +2,7 @@
 
 namespace SilverLeague\Console\Tests\Command\Object;
 
-use SilverLeague\Console\Command\Object\ExtensionsCommand;
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Object\ExtensionsCommand
@@ -28,14 +26,7 @@ class ExtensionsCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = new CommandTester($this->command);
-        $tester->execute(
-            [
-                'command' => $this->command->getName(),
-                'object'  => "SilverStripe\Forms\GridField\GridFieldDetailForm"
-            ]
-        );
-
+        $tester = $this->executeTest(['object'  => "SilverStripe\Forms\GridField\GridFieldDetailForm"]);
         $output = $tester->getDisplay();
         $this->assertContains("SilverStripe\ORM\Versioning\VersionedGridFieldDetailForm", $output);
     }

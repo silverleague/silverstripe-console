@@ -2,9 +2,7 @@
 
 namespace SilverLeague\Console\Tests\Command\Object;
 
-use SilverLeague\Console\Command\Object\ChildrenCommand;
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
-use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Object\ChildrenCommand
@@ -28,14 +26,7 @@ class ChildrenCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = new CommandTester($this->command);
-        $tester->execute(
-            [
-                'command' => $this->command->getName(),
-                'object'  => "SilverStripe\Dev\BuildTask"
-            ]
-        );
-
+        $tester = $this->executeTest(['object'  => "SilverStripe\Dev\BuildTask"]);
         $output = $tester->getDisplay();
         $this->assertContains("SilverStripe\Dev\Tasks\CleanupTestDatabasesTask", $output);
     }
