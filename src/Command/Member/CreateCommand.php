@@ -57,7 +57,7 @@ class CreateCommand extends SilverStripeCommand
 
         $output->writeln('<info>Member created.</info>');
 
-        $setGroups = new Question('Do you want to assign groups now?', 'yes');
+        $setGroups = new Question('Do you want to assign groups now? ', 'yes');
         if ($this->getHelper('question')->ask($input, $output, $setGroups)) {
             $command = $this->getApplication()->find('member:change-groups');
             $command->run(
