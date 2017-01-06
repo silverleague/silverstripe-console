@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Command\Object;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
+use SilverLeague\Console\Framework\Utility\ObjectUtilities;
 use SilverStripe\Core\ClassInfo;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,6 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ChildrenCommand extends SilverStripeCommand
 {
+    use ObjectUtilities;
+
     /**
      * {@inheritDoc}
      */
@@ -43,13 +46,13 @@ class ChildrenCommand extends SilverStripeCommand
         }
         sort($classes);
         $rows = array_map(function ($class) {
-            return [$class];
+            return [$class, $this->getModuleName($class)];
         }, $classes);
 
         $output->writeln('<info>Child classes for ' . $object . ':</info>');
         $table = new Table($output);
         $table
-            ->setHeaders(['Class name'])
+            ->setHeaders(['Class name', 'Module'])
             ->setRows($rows)
             ->render();
     }

@@ -24,11 +24,19 @@ class LookupCommandTest extends AbstractCommandTest
      *
      * @covers ::execute
      */
-    public function testExecute()
+    public function testExecuteWithRegularDependency()
     {
-        $tester = $this->executeTest(['object'  => 'Logger']);
+        $tester = $this->executeTest(['object' => 'Logger']);
         $output = $tester->getDisplay();
         $this->assertContains("Monolog\Logger", $output);
+    }
+
+    public function testExecuteWithSilverStripeClass()
+    {
+        $tester = $this->executeTest(['object' => "SilverStripe\ORM\DataObject"]);
+        $output = $tester->getDisplay();
+        $this->assertContains("SilverStripe\ORM\DataObject", $output);
+        $this->assertContains('silverstripe/framework', $output);
     }
 
     /**

@@ -29,6 +29,7 @@ class ChildrenCommandTest extends AbstractCommandTest
         $tester = $this->executeTest(['object'  => "SilverStripe\Dev\BuildTask"]);
         $output = $tester->getDisplay();
         $this->assertContains("SilverStripe\Dev\Tasks\CleanupTestDatabasesTask", $output);
+        $this->assertContains('silverstripe/framework', $output);
     }
 
     /**

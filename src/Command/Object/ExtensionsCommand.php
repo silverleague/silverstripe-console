@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Command\Object;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
+use SilverLeague\Console\Framework\Utility\ObjectUtilities;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Object;
 use Symfony\Component\Console\Helper\Table;
@@ -18,6 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ExtensionsCommand extends SilverStripeCommand
 {
+    use ObjectUtilities;
+
     /**
      * {@inheritDoc}
      */
@@ -61,7 +64,7 @@ class ExtensionsCommand extends SilverStripeCommand
      */
     public function getHeaders($isCmsClass)
     {
-        $headers = ['Class name', 'Added DB fields'];
+        $headers = ['Class name', 'Module', 'Added DB fields'];
         if ($isCmsClass) {
             $headers[] = 'Updates CMS fields';
         }
@@ -81,6 +84,8 @@ class ExtensionsCommand extends SilverStripeCommand
         foreach ($extensions as $extensionClass) {
             $row = [
                 $extensionClass,
+                // Add the module name
+                $this->getModuleName($extensionClass),
                 // Add the number of DB fields that the class adds
                 count((array) Config::inst()->get($extensionClass, 'db', Config::UNINHERITED))
             ];
