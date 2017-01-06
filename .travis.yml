@@ -11,4 +11,9 @@ before_install:
   - travis_retry composer require phpunit/phpunit ^5.7
 
 script:
-  - php vendor/bin/phpunit
+  - php vendor/bin/phpunit --coverage-clover=coverage.xml
+
+after_success:
+  - mv coverage.xml ~/build/$TRAVIS_REPO_SLUG
+  - cd ~/build/$TRAVIS_REPO_SLUG
+  - bash <(curl -s https://codecov.io/bash)
