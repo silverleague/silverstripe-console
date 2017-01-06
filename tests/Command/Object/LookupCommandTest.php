@@ -14,7 +14,7 @@ class LookupCommandTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'object:lookup';
     }

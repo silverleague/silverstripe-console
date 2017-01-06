@@ -46,12 +46,7 @@ class SilverStripeCommandTest extends \PHPUnit_Framework_TestCase
         $command = $application->find('member:create');
 
         $tester = new CommandTester($command);
-        $tester->execute(
-            [
-                'command' => $command->getName(),
-                'email' => 'john@example.com'
-            ]
-        );
+        $tester->execute(['email' => 'john@example.com']);
 
         // Check that the email is returned since it existed
         $this->assertSame('john@example.com', $tester->getInput()->getArgument('email'));

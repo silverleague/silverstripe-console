@@ -14,7 +14,7 @@ class ExtensionsCommandTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'object:extensions';
     }

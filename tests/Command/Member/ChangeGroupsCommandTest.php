@@ -31,7 +31,7 @@ class ChangeGroupsCommandTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'member:change-groups';
     }

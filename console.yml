@@ -12,5 +12,6 @@ Commands:
   - SilverLeague\Console\Command\Member\ChangePasswordCommand
   - SilverLeague\Console\Command\Member\CreateCommand
   - SilverLeague\Console\Command\Object\ChildrenCommand
+  - SilverLeague\Console\Command\Object\DebugCommand
   - SilverLeague\Console\Command\Object\ExtensionsCommand
   - SilverLeague\Console\Command\Object\LookupCommand
