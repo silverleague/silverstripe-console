@@ -33,7 +33,7 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      *
      * @return string
      */
-    abstract public function getTestCommand();
+    abstract protected function getTestCommand();
 
     /**
      * Create a CommandTester and execute the command with given arguments
@@ -44,9 +44,7 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     protected function executeTest(array $params)
     {
         $tester = new CommandTester($this->command);
-        $tester->execute(
-            array_merge(['command'  => $this->command->getName()], $params)
-        );
+        $tester->execute($params);
         return $tester;
     }
 }

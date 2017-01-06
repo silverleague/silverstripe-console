@@ -14,7 +14,7 @@ class ChildrenCommandTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'object:children';
     }
@@ -26,9 +26,10 @@ class ChildrenCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = $this->executeTest(['object'  => "SilverStripe\Dev\BuildTask"]);
+        $tester = $this->executeTest(['object' => "SilverStripe\Dev\BuildTask"]);
         $output = $tester->getDisplay();
         $this->assertContains("SilverStripe\Dev\Tasks\CleanupTestDatabasesTask", $output);
+        $this->assertContains('silverstripe/framework', $output);
     }
 
     /**

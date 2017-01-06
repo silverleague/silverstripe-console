@@ -14,7 +14,7 @@ class ExtensionsCommandTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'object:extensions';
     }
@@ -28,7 +28,8 @@ class ExtensionsCommandTest extends AbstractCommandTest
     {
         $tester = $this->executeTest(['object'  => "SilverStripe\Forms\GridField\GridFieldDetailForm"]);
         $output = $tester->getDisplay();
-        $this->assertContains("SilverStripe\ORM\Versioning\VersionedGridFieldDetailForm", $output);
+        $this->assertContains('SilverStripe\ORM\Versioning\VersionedGridFieldDetailForm', $output);
+        $this->assertContains('silverstripe/framework', $output);
     }
 
     /**
@@ -61,8 +62,8 @@ class ExtensionsCommandTest extends AbstractCommandTest
     public function headerProvider()
     {
         return [
-            [true, ['Class name', 'Added DB fields', 'Updates CMS fields']],
-            [false, ['Class name', 'Added DB fields']]
+            [true, ['Class name', 'Module', 'Added DB fields', 'Updates CMS fields']],
+            [false, ['Class name', 'Module', 'Added DB fields']]
         ];
     }
 
@@ -94,12 +95,12 @@ class ExtensionsCommandTest extends AbstractCommandTest
             [
                 false,
                 $extensions,
-                [array_merge($extensions, [0])]
+                [array_merge($extensions, ['silverstripe/framework', 0])]
             ],
             [
                 true,
                 $extensions,
-                [array_merge($extensions, [0, 'Yes'])]
+                [array_merge($extensions, ['silverstripe/framework', 0, 'Yes'])]
             ]
         ];
     }

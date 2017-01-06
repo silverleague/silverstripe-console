@@ -16,7 +16,7 @@ class BuildTest extends AbstractCommandTest
     /**
      * {@inheritDoc}
      */
-    public function getTestCommand()
+    protected function getTestCommand()
     {
         return 'dev:build';
     }
@@ -49,7 +49,7 @@ class BuildTest extends AbstractCommandTest
         $tester = new CommandTester($command);
 
         ob_start();
-        $tester->execute(['command' => $command->getName()]);
+        $tester->execute([]);
         $buffer = ob_get_clean();
 
         $this->assertContains('Database build completed!', $buffer);
