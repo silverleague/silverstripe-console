@@ -45,7 +45,7 @@ class CreateCommand extends SilverStripeCommand
             'Surname'   => $this->getOrAskForArgument($input, $output, 'surname', 'Surname: ')
         ];
         if (empty($data['Email']) || empty($data['Password'])) {
-            $output->writeln('<error>Please enter an email, username and password.</error>');
+            $output->writeln('<error>Please enter an email address and password.</error>');
             return;
         }
 
