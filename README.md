@@ -23,6 +23,8 @@ composer global require silverleague/silverstripe-console
 
 Ensure your composer's `bin` folder has been added to your system path.
 
+You can still require this module as a project dependency if you don't want to install it globally, of course.
+
 ### From source
 
 If you wish to install this module from source, you can clone the repository and symlink `bin/ssconsole` into your system path, for example:
