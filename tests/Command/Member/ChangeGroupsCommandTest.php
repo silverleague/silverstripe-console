@@ -12,6 +12,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 /**
  * Change a member's assigned groups
  *
+ * @coversDefaultClass \SilverLeague\Console\Command\Member\ChangeGroupsCommand
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */

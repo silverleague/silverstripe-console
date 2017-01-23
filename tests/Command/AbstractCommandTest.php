@@ -41,7 +41,7 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
      * @param  array $params
      * @return CommandTester
      */
-    protected function executeTest(array $params)
+    protected function executeTest(array $params = [])
     {
         $tester = new CommandTester($this->command);
         $tester->execute($params);
