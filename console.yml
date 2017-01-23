@@ -8,6 +8,7 @@
 
 Commands:
   - SilverLeague\Console\Command\Config\DumpCommand
+  - SilverLeague\Console\Command\Config\GetCommand
   - SilverLeague\Console\Command\Dev\BuildCommand
   - SilverLeague\Console\Command\Member\ChangeGroupsCommand
   - SilverLeague\Console\Command\Member\ChangePasswordCommand
