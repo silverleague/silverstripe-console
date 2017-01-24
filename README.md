@@ -1,4 +1,4 @@
-# silverleague/silverstripe-console
+# silverleague/ssconsole
 
 [![Travis](https://img.shields.io/travis/silverleague/silverstripe-console.svg)](https://travis-ci.org/silverleague/silverstripe-console) [![Scrutinizer](https://img.shields.io/scrutinizer/g/silverleague/silverstripe-console.svg)](https://scrutinizer-ci.com/g/silverleague/silverstripe-console/) [![Code coverage](https://codecov.io/gh/silverleague/silverstripe-console/branch/master/graph/badge.svg)](https://codecov.io/gh/silverleague/silverstripe-console)
 
@@ -18,7 +18,7 @@ A useful command line interface for SilverStripe developers.
 It is recommended to install this module globally with composer:
 
 ```shell
-composer global require silverleague/silverstripe-console
+composer global require silverleague/ssconsole
 ```
 
 Ensure your composer's `bin` folder has been added to your system path.

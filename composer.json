@@ -1,5 +1,5 @@
 {
-    "name": "silverleague/console",
+    "name": "silverleague/ssconsole",
     "description": "A better console for SilverStripe applications",
     "type": "silverstripe-module",
     "license": "MIT",

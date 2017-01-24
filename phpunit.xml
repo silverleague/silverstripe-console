@@ -5,7 +5,7 @@
     convertNoticesToExceptions="true"
     convertWarningsToExceptions="true">
     <testsuites>
-        <testsuite name="silverstripe-console">
+        <testsuite name="ssconsole">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
