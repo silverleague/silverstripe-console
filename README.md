@@ -45,6 +45,8 @@ ln -s "$(pwd)/bin/ssconsole" /usr/local/bin/ssconsole
 
 ## Usage
 
+For detailed usage information, please [see the documentation](docs/en).
+
 ### Commands
 
 To show the console menu and list of commands, run `ssconsole` from your terminal.

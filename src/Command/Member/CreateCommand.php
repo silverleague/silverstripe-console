@@ -25,7 +25,7 @@ class CreateCommand extends SilverStripeCommand
     {
         $this
             ->setName('member:create')
-            ->setDescription('Create a new member, and optionally add them to groups and roles.')
+            ->setDescription('Create a new member, and optionally add them to groups')
             ->addArgument('email', InputArgument::OPTIONAL, 'Email address')
             ->addArgument('username', InputArgument::OPTIONAL, 'Username')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
@@ -58,7 +58,7 @@ class CreateCommand extends SilverStripeCommand
         $output->writeln('<info>Member created.</info>');
 
         $setGroups = new Question('Do you want to assign groups now? ', 'yes');
-        if ($this->getHelper('question')->ask($input, $output, $setGroups)) {
+        if ($this->getHelper('question')->ask($input, $output, $setGroups) === 'yes') {
             $command = $this->getApplication()->find('member:change-groups');
             $command->run(
                 new ArrayInput([
