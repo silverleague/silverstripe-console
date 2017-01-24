@@ -1,12 +1,17 @@
+inherit: true
+
 filter:
-  excluded_paths:
-    - 'bin/*'
+  paths: [src/*, tests/*]
 
 checks:
-  php: true
-coding_style:
   php:
-    spaces:
-      around_operators:
-        concatenation: true
+    code_rating: true
+    duplication: true
 
+build:
+  dependencies:
+    override:
+      - true
+  tests:
+    override:
+      - phpcs-run
