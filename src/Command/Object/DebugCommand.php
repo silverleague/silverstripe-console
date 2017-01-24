@@ -37,14 +37,14 @@ class DebugCommand extends SilverStripeCommand
 
         $this->setHelp(
             <<<TEXT
-Look up a DataObject by class name and either it's ID or an interactive search-by-column.
+Look up a DataObject by class name and either its ID or an interactive search-by-column.
 
 If no ID is provided then an interactive prompt will ask for the column to search by, then autocomplete all available
 values for that class's columns to choose from.
 
 The default output format is JSON. You can add the --output-table option to output the results in a table instead.
 
-By default the output will also be sorted by key. Do prevent this, add the --no-sort option.
+By default the output will also be sorted by key. To prevent this, add the --no-sort option.
 TEXT
         );
     }
