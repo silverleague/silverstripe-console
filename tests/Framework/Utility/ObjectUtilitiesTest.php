@@ -80,7 +80,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
     public function composerConfigurationProvider()
     {
         return [
-            ['mysite', 'mysite', 'silverleague/console'],
+            ['mysite', 'mysite', 'silverleague/ssconsole'],
             ['mysite', 'framework', 'silverstripe/framework']
         ];
     }
