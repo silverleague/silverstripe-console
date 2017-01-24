@@ -1,7 +1,6 @@
 {
     "name": "silverleague/console",
     "description": "A better console for SilverStripe applications",
-    "type": "silverstripe-module",
     "license": "MIT",
     "authors": [
         {
