@@ -15,6 +15,7 @@ $_FILE_TO_URL_MAPPING[CONSOLE_BASE_DIR] = 'http://localhost';
 global $databaseConfig;
 $databaseConfig = [
     'type'     => 'MySQLDatabase',
+    'server'   => '127.0.0.1',
     'username' => 'root',
     'password' => '',
     'database' => 'console-tests'

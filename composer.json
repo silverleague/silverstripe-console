@@ -25,5 +25,7 @@
             "SilverLeague\\Console\\": "src/",
             "SilverLeague\\Console\\Tests\\": "tests/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

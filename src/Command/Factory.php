@@ -54,6 +54,9 @@ class Factory extends ConsoleBase
     public function getCommandName(BuildTask $task)
     {
         $taskSegment = Config::inst()->get(get_class($task), 'segment');
+        if (empty($taskSegment)) {
+            $taskSegment = $task->class;
+        }
         $segment = strtolower(preg_replace('/(?<=[a-z])([A-Z]+)/', '-$1', $taskSegment));
         // We don't really need "-task" on the end of every task.
         if (substr($segment, -5, 5) === '-task') {

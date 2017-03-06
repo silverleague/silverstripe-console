@@ -42,7 +42,8 @@ HELP
     {
         $result = $this->getConfig()->get(
             $input->getArgument('class'),
-            $input->getArgument('property')
+            $input->getArgument('property'),
+            true
         );
         $output->writeln(var_export($result, true));
     }

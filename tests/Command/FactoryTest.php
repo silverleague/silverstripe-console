@@ -40,13 +40,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCommandName($input, $expected)
     {
-        Config::inst()->nest();
+        Config::nest();
 
         $fakeTask = new CleanupTestDatabasesTask;
-        Config::inst()->update(get_class($fakeTask), 'segment', $input);
+        Config::modify()->set(get_class($fakeTask), 'segment', $input);
         $this->assertSame($expected, $this->getFactory()->getCommandName($fakeTask));
 
-        Config::inst()->unnest();
+        Config::unnest();
     }
 
     /**
