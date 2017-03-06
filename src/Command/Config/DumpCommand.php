@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Command\Config;
 
 use SilverLeague\Console\Command\Config\AbstractConfigCommand;
+use SilverStripe\Core\Convert;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,18 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DumpCommand extends AbstractConfigCommand
 {
     /**
-     * The supported configuration sources
-     *
-     * @var array
-     */
-    protected $configTypes = ['all', 'yaml', 'static', 'overrides'];
-
-    /**
-     * @var string
-     */
-    protected $configType;
-
-    /**
      * @var string|null
      */
     protected $filter;
@@ -41,13 +30,11 @@ class DumpCommand extends AbstractConfigCommand
         $this
             ->setName('config:dump')
             ->setDescription('Dumps all of the processed configuration properties and their values')
-            ->addArgument('type', null, implode(', ', $this->configTypes), 'all')
             ->addOption('filter', null, InputOption::VALUE_REQUIRED, 'Filter the results (search)');
 
         $this->setHelp(<<<HELP
-Dumps all of the processed configuration properties and their values. You can optionally filter the type to
-control the source of data, for example use "yaml" to only return configuration values that were defined in
-YAML configuration files. You can also add the --filter option with a search value to narrow the results.
+Dumps all of the processed configuration properties and their values. You can optionally add the --filter option
+with a search value to narrow the results.
 HELP
         );
     }
@@ -60,20 +47,9 @@ HELP
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ($input->getArgument('type') && !in_array($input->getArgument('type'), $this->configTypes)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    '%s is not a valid config type, options: %s',
-                    $input->getArgument('type'),
-                    implode(', ', $this->configTypes)
-                )
-            );
-        }
-
         $this->filter = $input->getOption('filter');
-        $this->configType = $input->getArgument('type');
 
-        $data = $this->getParsedOutput();
+        $data = $this->getParsedOutput($this->getConfig()->getAll());
         if ($this->filter) {
             $data = $this->filterOutput($data, $this->filter);
         }
@@ -86,74 +62,31 @@ HELP
     }
 
     /**
-     * Get source configuration data by the optional "type"
+     * Creates a table-friendly output array from the input configuration source
      *
+     * @param  array $data
      * @return array
      */
-    protected function getSourceData()
-    {
-        switch ($this->configType) {
-            case 'yaml':
-                $output = $this->getYamlConfig();
-                break;
-            case 'static':
-                $output = $this->getStaticConfig();
-                break;
-            case 'overrides':
-                $output = $this->getConfigOverrides();
-                break;
-            case 'all':
-            default:
-                $output = $this->getMergedData();
-                break;
-        }
-        return $output;
-    }
-
-    /**
-     * Merge together the config manifests data in the same manner as \SilverStripe\Core\Config\Config::getUncached
-     *
-     * @return array
-     */
-    protected function getMergedData()
-    {
-        // Statics are the lowest priority
-        $output = $this->getStaticConfig();
-
-        // Then YAML is added
-        foreach ($this->getYamlConfig() as $class => $property) {
-            if (!array_key_exists($class, $output)) {
-                $output[$class] = [];
-            }
-            $output[$class] = array_merge($property, $output[$class]);
-        }
-
-        // Then overrides are added last
-        foreach ($this->getConfigOverrides() as $class => $values) {
-            foreach ($values as $property => $value) {
-                $output[$class][$property] = $value;
-            }
-        }
-
-        return $output;
-    }
-
-    /**
-     * Creates a table-friendly output array from the input configuration sources
-     *
-     * @return array
-     */
-    protected function getParsedOutput()
+    protected function getParsedOutput($data)
     {
         $output = [];
-        foreach ($this->getSourceData() as $className => $classInfo) {
+        foreach ($data as $className => $classInfo) {
             foreach ($classInfo as $property => $values) {
                 $row = [$className, $property];
-                if (is_array($values)) {
+                if (is_array($values) || is_object($values)) {
                     foreach ($values as $key => $value) {
                         $row[] = is_numeric($key) ? '' : $key;
-                        $row[] = is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
-                        $output[] = $row;
+                        if (is_array($value)) {
+                            $value = Convert::raw2json($value, JSON_PRETTY_PRINT);
+                        } elseif (is_object($value)) {
+                            $value = get_class($value);
+                        } else {
+                            $value = (string) $value;
+                        }
+                        $row[] = $value;
+                        if (array_filter($row) != []) {
+                            $output[] = $row;
+                        }
                         // We need the class and property data for second level values if we're filtering.
                         if ($this->filter !== null) {
                             $row = [$className, $property];
@@ -165,7 +98,10 @@ HELP
                     $row[] = '';
                     $row[] = $values;
                 }
-                $output[] = $row;
+
+                if (array_filter($row) != []) {
+                    $output[] = $row;
+                }
             }
         }
         return $output;

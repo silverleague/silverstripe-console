@@ -2,6 +2,7 @@
 
 namespace SilverLeague\Console\Command;
 
+use SilverStripe\Config\Collections\ConfigCollectionInterface;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use Symfony\Component\Console\Command\Command;
@@ -55,7 +56,7 @@ class SilverStripeCommand extends Command
     /**
      * Get the configuration API handler
      *
-     * @return Config
+     * @return ConfigCollectionInterface
      */
     public function getConfig()
     {

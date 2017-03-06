@@ -4,6 +4,7 @@ namespace SilverLeague\Console\Tests\Command;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Scaffold;
+use SilverStripe\Config\Collections\ConfigCollectionInterface;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -63,12 +64,12 @@ class SilverStripeCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that a Config instance is returned
+     * Test that a ConfigCollectionInterface instance is returned
      *
      * @covers ::getConfig
      */
     public function testShouldReturnConfig()
     {
-        $this->assertInstanceOf(Config::class, (new SilverStripeCommand('bar'))->getConfig());
+        $this->assertInstanceOf(ConfigCollectionInterface::class, (new SilverStripeCommand('bar'))->getConfig());
     }
 }

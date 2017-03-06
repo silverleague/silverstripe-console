@@ -36,6 +36,9 @@ class Bootstrap
      */
     protected function findSilverStripe()
     {
+        if (defined('SILVERSTRIPE_ROOT_DIR')) {
+            return true;
+        }
         foreach ([getcwd(), CONSOLE_BASE_DIR . '/../', CONSOLE_BASE_DIR . '/silverstripe'] as $rootFolder) {
             if (file_exists($rootFolder . '/framework/src/Core/Core.php')) {
                 define('SILVERSTRIPE_ROOT_DIR', $rootFolder);
