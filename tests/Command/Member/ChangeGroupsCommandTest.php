@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverLeague\Console\Command\Member;
+namespace SilverLeague\Console\Tests\Command\Member;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Security\Member;

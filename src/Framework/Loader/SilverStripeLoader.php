@@ -6,6 +6,7 @@ use SilverLeague\Console\Command\Factory;
 use SilverLeague\Console\Framework\ConsoleBase;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Dev\BuildTask;
 
 /**
  * The class responsible for loading/instantiating SilverStripe and accessing its class hierarchy, etc
@@ -23,14 +24,16 @@ class SilverStripeLoader extends ConsoleBase
     public function getTasks()
     {
         $commands = [];
-        $tasks = ClassInfo::subclassesFor('SilverStripe\\Dev\\BuildTask');
+        $tasks = ClassInfo::subclassesFor(BuildTask::class);
 
         // Remove the BuildTask itself
         array_shift($tasks);
 
         foreach ($tasks as $taskClass) {
             $task = Injector::inst()->get($taskClass);
-            $commands[] = $this->getCommandFactory()->getCommandFromTask($task);
+            if ($command = $this->getCommandFactory()->getCommandFromTask($task)) {
+                $commands[] = $command;
+            }
         }
 
         return $commands;

@@ -23,7 +23,7 @@ class Factory extends ConsoleBase
      * Given a BuildTask, convert it to a runnable Symfony Command
      *
      * @param  BuildTask $task
-     * @return SilverStripeCommand
+     * @return SilverStripeCommand|false
      */
     public function getCommandFromTask(BuildTask $task)
     {
@@ -31,7 +31,12 @@ class Factory extends ConsoleBase
             return false;
         }
 
-        $command = new AbstractTaskCommand($this->getCommandName($task));
+        $commandName = $this->getCommandName($task);
+        if (empty($commandName)) {
+            return false;
+        }
+
+        $command = new AbstractTaskCommand($commandName);
         $command->setApplication($this->getApplication());
         $command->setTask($task);
         $command->setDescription($task->getTitle());
@@ -53,6 +58,10 @@ class Factory extends ConsoleBase
         // We don't really need "-task" on the end of every task.
         if (substr($segment, -5, 5) === '-task') {
             $segment = substr($segment, 0, strlen($segment) - 5);
+        }
+
+        if (empty($segment)) {
+            return '';
         }
         return sprintf('dev:tasks:%s', $segment);
     }

@@ -39,7 +39,6 @@ class Bootstrap
         foreach ([getcwd(), CONSOLE_BASE_DIR . '/../', CONSOLE_BASE_DIR . '/silverstripe'] as $rootFolder) {
             if (file_exists($rootFolder . '/framework/src/Core/Core.php')) {
                 define('SILVERSTRIPE_ROOT_DIR', $rootFolder);
-                $this->defineHttpHost();
 
                 require_once $rootFolder . '/vendor/autoload.php';
                 require_once $rootFolder . '/framework/src/Core/Core.php';
@@ -60,18 +59,6 @@ class Bootstrap
         if ($databaseConfig) {
             DB::connect($databaseConfig);
         }
-        return $this;
-    }
-
-    /**
-     * Defines a mock file to URL map for the console so that controller routes will work
-     *
-     * @return $this
-     */
-    protected function defineHttpHost()
-    {
-        global $_FILE_TO_URL_MAPPING;
-        $_FILE_TO_URL_MAPPING[CONSOLE_BASE_DIR] = 'http://localhost';
         return $this;
     }
 }
