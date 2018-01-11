@@ -4,6 +4,7 @@ namespace SilverLeague\Console\Tests\Command\Config;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Config\Collections\ConfigCollectionInterface;
+use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Config\Config;
 
 /**
@@ -13,9 +14,6 @@ use SilverStripe\Core\Config\Config;
  */
 class DumpCommandTest extends AbstractCommandTest
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function getTestCommand()
     {
         return 'config:dump';
@@ -51,8 +49,8 @@ class DumpCommandTest extends AbstractCommandTest
      */
     public function testExecuteWithFilteredResults()
     {
-        $result = $this->executeTest(['--filter' => 'SilverStripe\\Control\\Director'])->getDisplay();
-        $this->assertContains('silverstripe\\control\\director', $result);
+        $result = $this->executeTest(['--filter' => 'ViewableData'])->getDisplay();
+        $this->assertContains( RequestHandler::class, $result);
         $this->assertNotContains('silverstripe\\core\\injector\\injector', $result);
     }
 
@@ -63,11 +61,11 @@ class DumpCommandTest extends AbstractCommandTest
      */
     public function testFilterOnAnyColumn()
     {
-        $result = $this->executeTest(['--filter' => '%$DisplayErrorHandler'])->getDisplay();
+        $result = $this->executeTest(['--filter' => 'pushDisplayErrorHandler'])->getDisplay();
         $this->assertContains('pushHandler', $result);
 
         $result = $this->executeTest(['--filter' => 'pushHandler'])->getDisplay();
-        $this->assertContains('%$DisplayErrorHandler', $result);
+        $this->assertContains('%$Monolog\\\\Handler\\\\HandlerInterface', $result);
     }
 
     /**
@@ -81,20 +79,6 @@ class DumpCommandTest extends AbstractCommandTest
         $result = $this->executeTest(['--filter' => 'FooBar'])->getDisplay();
         $this->assertNotContains('1', $result);
         $this->assertContains('bar', $result);
-    }
-
-    /**
-     * Ensure that nested array values for properties are displayed as JSON. Since it crosses multiple lines,
-     * we can't assert it exactly.
-     *
-     * @covers ::getParsedOutput
-     */
-    public function testNestedArrayValuesAreDisplayedAsJson()
-    {
-        $input = ['brands' => ['good' => 'Heatings R Us', 'great' => 'Never-B-Cold', 'best' => 'Luv-Fyre']];
-        Config::modify()->set('HeatingSupplies', 'brands', $input);
-        $result = $this->executeTest()->getDisplay();
-        $this->assertContains('"great": "Never-B-Cold",', $result);
     }
 
     /**

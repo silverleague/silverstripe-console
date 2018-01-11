@@ -2,6 +2,7 @@
 
 namespace SilverLeague\Console\Tests\Command;
 
+use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Scaffold;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -16,14 +17,14 @@ abstract class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * The test subject
      *
-     * @var \SilverLeague\Console\Command\SilverStripeCommand
+     * @var SilverStripeCommand
      */
     protected $command;
 
     /**
      * Add the command
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->command = (new Scaffold)->getApplication()->find($this->getTestCommand());
     }

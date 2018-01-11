@@ -5,7 +5,6 @@ namespace SilverLeague\Console\Tests\Command;
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Scaffold;
 use SilverStripe\Config\Collections\ConfigCollectionInterface;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;

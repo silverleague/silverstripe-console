@@ -4,6 +4,8 @@ namespace SilverLeague\Console\Framework\Utility;
 
 use ReflectionClass;
 use ReflectionException;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Manifest\ModuleManifest;
 
 /**
  * Utility methods for handling SilverStripe Objects
@@ -43,8 +45,17 @@ trait ObjectUtilities
 
         $relativePath = ltrim(substr($class->getFileName(), strlen(SILVERSTRIPE_ROOT_DIR)), '/');
         $folders = explode('/', $relativePath);
-        if (empty($folder = array_shift($folders))) {
+
+        // Handle root level modules
+        $folder = array_shift($folders);
+
+        if (empty($folder)) {
             return '';
+        }
+
+        // Handle vendor modules
+        if ($folder === 'vendor') {
+            $folder .=  '/' . array_shift($folders) . '/' . array_shift($folders);
         }
 
         $composerConfig = $this->getModuleComposerConfiguration($folder);
@@ -60,7 +71,7 @@ trait ObjectUtilities
      */
     public function getModuleComposerConfiguration($folderName)
     {
-        global $project;
+        $project = Config::inst()->get(ModuleManifest::class, 'project');
         if (!empty($project) && $project === $folderName) {
             $folderName = '.';
         }

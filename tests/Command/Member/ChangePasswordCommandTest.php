@@ -15,15 +15,27 @@ class ChangePasswordCommandTest extends AbstractCommandTest
     /**
      * Create a Member to play with
      */
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
-        Member::get()->removeAll();
         $member = Member::create();
         $member->Email = 'unittest@example.com';
-        $member->Password = 'notrelevant';
+        $member->Password = 'NotRelevant1';
         $member->write();
+    }
+
+    /**
+     * Delete fixtured members after tests have run
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $testMember = Member::get()->filter(['Email' => 'unittest@example.com'])->first();
+        if ($testMember && $testMember->exists()) {
+            $testMember->delete();
+        }
     }
 
     /**
@@ -41,7 +53,7 @@ class ChangePasswordCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = $this->executeTest(['email' => 'unittest@example.com', 'password' => 'newpassword']);
+        $tester = $this->executeTest(['email' => 'unittest@example.com', 'password' => 'NewPassword123']);
         $this->assertContains('Password updated', $tester->getDisplay());
     }
 
@@ -52,7 +64,7 @@ class ChangePasswordCommandTest extends AbstractCommandTest
      */
     public function testErrorWhenEmailNotFound()
     {
-        $tester = $this->executeTest(['email' => 'joe.unpopular@example.com', 'password' => 'newpassword']);
+        $tester = $this->executeTest(['email' => 'joe.unpopular@example.com', 'password' => 'NewPassword234']);
         $this->assertContains('Member with email "joe.unpopular@example.com" was not found', $tester->getDisplay());
     }
 

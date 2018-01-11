@@ -3,7 +3,6 @@
 namespace SilverLeague\Console\Tests\Framework\Loader;
 
 use SilverLeague\Console\Command\Factory;
-use SilverLeague\Console\Framework\Loader\SilverStripeLoader;
 use SilverLeague\Console\Framework\Scaffold;
 use Symfony\Component\Console\Command\Command;
 

@@ -13,12 +13,22 @@ use Symfony\Component\Console\Helper\QuestionHelper;
  */
 class CreateCommandTest extends AbstractCommandTest
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function getTestCommand()
     {
         return 'member:create';
+    }
+
+    /**
+     * Delete fixtured members after tests have run
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $testMember = Member::get()->filter(['Email' => 'unittest@example.com'])->first();
+        if ($testMember && $testMember->exists()) {
+            $testMember->delete();
+        }
     }
 
     /**
@@ -28,9 +38,6 @@ class CreateCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        // Remove any existing members from the database
-        Member::get()->removeAll();
-
         $questionHelper = $this
             ->getMockBuilder(QuestionHelper::class)
             ->setMethods(['ask'])
@@ -46,7 +53,7 @@ class CreateCommandTest extends AbstractCommandTest
         $tester = $this->executeTest(
             [
                 'email'    => 'unittest@example.com',
-                'password' => 'opensesame'
+                'password' => 'OpenSe$am3!'
             ]
         );
         $output = $tester->getDisplay();

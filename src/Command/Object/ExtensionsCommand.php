@@ -5,7 +5,7 @@ namespace SilverLeague\Console\Command\Object;
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Utility\ObjectUtilities;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Injector\Injector;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,47 +38,45 @@ class ExtensionsCommand extends SilverStripeCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $object = $input->getArgument('object');
-        $extensions = Object::get_extensions($object);
+
+        $instance = Injector::inst()->create($object);
+        // Not all classes implement Extensible
+        if (!method_exists($instance, 'get_extensions')) {
+            $output->writeln('<error>' . $object . ' doesn\'t allow extensions (implement Extensible)</error>');
+            return;
+        }
+
+        $extensions = $instance->get_extensions();
         if (!$extensions) {
-            $output->writeln('There are no Extensions registered for ' . $object);
+            $output->writeln('<error>There are no Extensions registered for ' . $object . '</error>');
             return;
         }
         sort($extensions);
 
-        $isCmsClass = (class_exists('SilverStripe\\CMS\\Model\\SiteTree')
-            && singleton($object) instanceof \SilverStripe\CMS\Model\SiteTree);
-
         $output->writeln('<info>Extensions for ' . $object . ':</info>');
         $table = new Table($output);
         $table
-            ->setHeaders($this->getHeaders($isCmsClass))
-            ->setRows($this->getRows($isCmsClass, $extensions))
+            ->setHeaders($this->getHeaders())
+            ->setRows($this->getRows($extensions))
             ->render();
     }
 
     /**
      * Return the header cells for the output table. CMS classes have an extra column.
      *
-     * @param  bool $isCmsClass
      * @return string[]
      */
-    public function getHeaders($isCmsClass)
+    public function getHeaders()
     {
-        $headers = ['Class name', 'Module', 'Added DB fields'];
-        if ($isCmsClass) {
-            $headers[] = 'Updates CMS fields';
-        }
-
-        return $headers;
+        return ['Class name', 'Module', 'Added DB fields'];
     }
 
     /**
-     * Return the rows for the output table containing extension statistics. CMS classes have an extra column.
+     * Return the rows for the output table containing extension statistics.
      *
-     * @param  bool $isCmsClass
-     * @return array[]
+     * @return string[]
      */
-    public function getRows($isCmsClass, $extensions)
+    public function getRows($extensions)
     {
         $tableRows = [];
         foreach ($extensions as $extensionClass) {
@@ -87,13 +85,8 @@ class ExtensionsCommand extends SilverStripeCommand
                 // Add the module name
                 $this->getModuleName($extensionClass),
                 // Add the number of DB fields that the class adds
-                count((array) Config::inst()->get($extensionClass, 'db', Config::UNINHERITED))
+                count((array) Config::inst()->get($extensionClass, 'db', Config::UNINHERITED)),
             ];
-
-            if ($isCmsClass) {
-                // Add whether or not the extension updates CMS fields
-                $row[] = method_exists(singleton($extensionClass), 'updateCMSFields') ? 'Yes' : 'No';
-            }
 
             $tableRows[] = $row;
         }

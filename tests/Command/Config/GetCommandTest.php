@@ -3,7 +3,7 @@
 namespace SilverLeague\Console\Tests\Command\Config;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
-use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataObject;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Config\GetCommand
@@ -12,9 +12,6 @@ use SilverStripe\Core\Config\Config;
  */
 class GetCommandTest extends AbstractCommandTest
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function getTestCommand()
     {
         return 'config:get';
@@ -38,9 +35,8 @@ class GetCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        Config::inst()->update('space', 'monkey_hater_machine', 'donkey');
-        $result = $this->executeTest(['class' => 'space', 'property' => 'monkey_hater_machine'])->getDisplay();
-        $this->assertContains('donkey', $result);
+        $result = $this->executeTest(['class' => DataObject::class, 'property' => 'fixed_fields'])->getDisplay();
+        $this->assertContains('ClassName', $result);
     }
 
     /**

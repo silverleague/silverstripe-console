@@ -3,6 +3,9 @@
 namespace SilverLeague\Console\Tests\Command\Object;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
+use SilverStripe\Assets\AssetControlExtension;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
+use SilverStripe\Versioned\VersionedGridFieldDetailForm;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Object\ExtensionsCommand
@@ -11,9 +14,6 @@ use SilverLeague\Console\Tests\Command\AbstractCommandTest;
  */
 class ExtensionsCommandTest extends AbstractCommandTest
 {
-    /**
-     * {@inheritDoc}
-     */
     protected function getTestCommand()
     {
         return 'object:extensions';
@@ -26,10 +26,10 @@ class ExtensionsCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = $this->executeTest(['object'  => "SilverStripe\Forms\GridField\GridFieldDetailForm"]);
+        $tester = $this->executeTest(['object'  => GridFieldDetailForm::class]);
         $output = $tester->getDisplay();
-        $this->assertContains('SilverStripe\ORM\Versioning\VersionedGridFieldDetailForm', $output);
-        $this->assertContains('silverstripe/framework', $output);
+        $this->assertContains(VersionedGridFieldDetailForm::class, $output);
+        $this->assertContains('silverstripe/versioned', $output);
     }
 
     /**
@@ -45,41 +45,15 @@ class ExtensionsCommandTest extends AbstractCommandTest
     /**
      * Ensure that extra headers are added for CMS pages
      *
-     * @covers ::getHeaders
-     * @dataProvider headerProvider
-     *
-     * @param bool     $isCms
-     * @param string[] $expected
-     */
-    public function testGetHeaders($isCms, $expected)
-    {
-        $this->assertSame($expected, $this->command->getHeaders($isCms));
-    }
-
-    /**
-     * @return string[]
-     */
-    public function headerProvider()
-    {
-        return [
-            [true, ['Class name', 'Module', 'Added DB fields', 'Updates CMS fields']],
-            [false, ['Class name', 'Module', 'Added DB fields']]
-        ];
-    }
-
-    /**
-     * Ensure that extra headers are added for CMS pages
-     *
      * @covers ::getRows
      * @dataProvider rowsProvider
      *
-     * @param bool     $isCms
      * @param array    $extensions
      * @param string[] $expected
      */
-    public function testGetRows($isCms, $extensions, $expected)
+    public function testGetRows($extensions, $expected)
     {
-        $this->assertSame($expected, $this->command->getRows($isCms, $extensions));
+        $this->assertSame($expected, $this->command->getRows($extensions));
     }
 
     /**
@@ -88,20 +62,14 @@ class ExtensionsCommandTest extends AbstractCommandTest
     public function rowsProvider()
     {
         $extensions = [
-            "SilverStripe\Assets\AssetControlExtension"
+            AssetControlExtension::class,
         ];
 
         return [
             [
-                false,
                 $extensions,
-                [array_merge($extensions, ['silverstripe/framework', 0])]
+                [array_merge($extensions, ['silverstripe/assets', 0])],
             ],
-            [
-                true,
-                $extensions,
-                [array_merge($extensions, ['silverstripe/framework', 0, 'Yes'])]
-            ]
         ];
     }
 }

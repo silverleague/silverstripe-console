@@ -2,9 +2,11 @@
 
 namespace SilverLeague\Console\Tests\Framework\Utility;
 
-use SilverLeague\Console\Framework\Scaffold;
-use SilverLeague\Console\Framework\Utility\ObjectUtilities;
 use ReflectionClass;
+use SilverLeague\Console\Framework\Utility\ObjectUtilities;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Manifest\ModuleManifest;
+use SilverStripe\ORM\DataObject;
 
 /**
  * @coverDefaultClass \SilverLeague\Console\Framework\Utility\ObjectUtilities
@@ -14,9 +16,11 @@ use ReflectionClass;
 class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * {@inheritDoc}
+     * @var ObjectUtilities
      */
-    public function setUp()
+    protected $utility;
+
+    protected function setUp()
     {
         parent::setUp();
 
@@ -24,9 +28,6 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder(ObjectUtilities::class)
             ->setMethods([])
             ->getMockForTrait();
-
-        // Trigger bootstrapping
-        (new Scaffold);
     }
 
     /**
@@ -34,7 +35,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReflectionClass()
     {
-        $this->assertInstanceOf(ReflectionClass::class, $this->utility->getReflection("SilverStripe\Core\Object"));
+        $this->assertInstanceOf(ReflectionClass::class, $this->utility->getReflection(DataObject::class));
     }
 
     /**
@@ -50,7 +51,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetModuleNameForValidClass()
     {
-        $this->assertSame('silverstripe/framework', $this->utility->getModuleName("SilverStripe\Core\Object"));
+        $this->assertSame('silverstripe/framework', $this->utility->getModuleName(DataObject::class));
     }
 
     /**
@@ -58,7 +59,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testReturnEmptyStringWhenModuleNameCantBeFound()
     {
-        $this->assertSame('', $this->utility->getModuleName("Monolog\Logger"));
+        $this->assertSame('', $this->utility->getModuleName('stdClass'));
     }
 
     /**
@@ -69,9 +70,10 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetModuleNameFromComposerConfiguration($projectName, $folderName, $expected)
     {
-        global $project;
-        $project = $projectName;
-        $this->assertSame($expected, $this->utility->getModuleComposerConfiguration($folderName)['name']);
+        $result = $this->utility->getModuleComposerConfiguration($folderName);
+
+        $this->assertArrayHasKey('name', $result);
+        $this->assertSame($expected, $result['name']);
     }
 
     /**
@@ -79,9 +81,10 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function composerConfigurationProvider()
     {
+        $project = Config::inst()->get(ModuleManifest::class, 'project');
         return [
-            ['mysite', 'mysite', 'silverleague/ssconsole'],
-            ['mysite', 'framework', 'silverstripe/framework']
+            [$project, $project, 'silverleague/ssconsole'],
+            [$project, 'framework', 'silverstripe/framework']
         ];
     }
 
@@ -119,7 +122,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
             ->method('getReflection')
             ->willReturn($reflectionMock);
 
-        $this->assertSame('', $mock->getModuleName("SilverStripe\ORM\DataObject"));
+        $this->assertSame('', $mock->getModuleName(DataObject::class));
     }
 
     /**
@@ -127,9 +130,9 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleUnreadableComposerFile()
     {
-        $filename = 'framework/composer.json';
+        $filename = 'vendor/silverstripe/framework/composer.json';
         chmod($filename, 0066);
-        $this->assertSame([], $this->utility->getModuleComposerConfiguration('framework'));
+        $this->assertSame([], $this->utility->getModuleComposerConfiguration('vendor/silverstripe/framework'));
         chmod($filename, 0644);
     }
 

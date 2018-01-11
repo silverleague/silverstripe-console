@@ -19,14 +19,16 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 class ChangeGroupsCommandTest extends AbstractCommandTest
 {
     /**
-     * Ensure a clean slate for each test run
-     *
-     * {@inheritDoc}
+     * Delete fixtured members after tests have run
      */
-    public function setUp()
+    protected function tearDown()
     {
-        parent::setUp();
-        Member::get()->removeAll();
+        parent::tearDown();
+
+        $testMember = Member::get()->filter(['Email' => 'changemygroup@example.com'])->first();
+        if ($testMember && $testMember->exists()) {
+            $testMember->delete();
+        }
     }
 
     /**
@@ -79,7 +81,7 @@ class ChangeGroupsCommandTest extends AbstractCommandTest
     {
         $member = Member::create();
         $member->Email = 'changemygroup@example.com';
-        $member->Password = 'opensesame';
+        $member->Password = 'Opensesame1';
         $member->write();
         return $member;
     }

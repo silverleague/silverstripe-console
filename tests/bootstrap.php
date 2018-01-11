@@ -7,6 +7,8 @@
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
 
+use SilverLeague\Console\Framework\Scaffold;
+
 define('CONSOLE_BASE_DIR', realpath(__DIR__ . '/..'));
 
 foreach([CONSOLE_BASE_DIR, realpath(CONSOLE_BASE_DIR . '/../..')] as $vendorPath) {
@@ -14,3 +16,6 @@ foreach([CONSOLE_BASE_DIR, realpath(CONSOLE_BASE_DIR . '/../..')] as $vendorPath
         require_once $vendorPath . '/autoload.php';
     }
 }
+
+// Trigger bootstrapping
+(new Scaffold);
