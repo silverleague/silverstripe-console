@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bootstrapping for the console unit tests
  *
@@ -7,4 +8,9 @@
  */
 
 define('CONSOLE_BASE_DIR', realpath(__DIR__ . '/..'));
-require_once CONSOLE_BASE_DIR . '/vendor/autoload.php';
+
+foreach([CONSOLE_BASE_DIR, realpath(CONSOLE_BASE_DIR . '/../..')] as $vendorPath) {
+    if (file_exists($vendorPath . '/autoload.php')) {
+        require_once $vendorPath . '/autoload.php';
+    }
+}
