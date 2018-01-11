@@ -5,7 +5,6 @@ namespace SilverLeague\Console\Tests\Framework;
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Loader\ConfigurationLoader;
 use SilverLeague\Console\Framework\Loader\SilverStripeLoader;
-use SilverLeague\Console\Framework\Bootstrap;
 use SilverLeague\Console\Framework\Scaffold;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputOption;

@@ -55,25 +55,38 @@ class Factory extends ConsoleBase
     {
         $taskSegment = Config::inst()->get(get_class($task), 'segment');
         if (empty($taskSegment)) {
-            $taskSegment = $task->class;
+            $taskSegment = get_class($task);
         }
-        $segment = strtolower(preg_replace('/(?<=[a-z])([A-Z]+)/', '-$1', $taskSegment));
+
+        $segment = $this->getFriendlySegment($taskSegment);
+        if (empty($segment)) {
+            return '';
+        }
+
+        return sprintf('dev:tasks:%s', $segment);
+    }
+
+    public function getFriendlySegment($segment)
+    {
+        // Convert backslashes (from namespaced classes) to dashes
+        $segment = str_replace('\\', '-', $segment);
+
+        // Add dashes before any uppercase letter and return as lowercase
+        $segment = strtolower(preg_replace('/(?<=[a-z])([A-Z]+)/', '-$1', $segment));
+
         // We don't really need "-task" on the end of every task.
         if (substr($segment, -5, 5) === '-task') {
             $segment = substr($segment, 0, strlen($segment) - 5);
         }
 
-        if (empty($segment)) {
-            return '';
-        }
-        return sprintf('dev:tasks:%s', $segment);
+        return $segment;
     }
 
     /**
      * Get the BuildTask functionality as a closure
      *
      * @param  AbstractTaskCommand $command
-     * @return Closure
+     * @return callable
      */
     public function getTaskAsClosure(AbstractTaskCommand $command)
     {

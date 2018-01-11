@@ -35,7 +35,7 @@ class ConfigurationLoader extends ConsoleBase
             throw new RuntimeException('The configuration YAML file does not exist!');
         }
 
-        return Yaml::parse($filename);
+        return Yaml::parse(file_get_contents($filename));
     }
 
     /**

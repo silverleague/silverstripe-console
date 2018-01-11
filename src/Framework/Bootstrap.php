@@ -2,6 +2,10 @@
 
 namespace SilverLeague\Console\Framework;
 
+use SilverStripe\Control\HTTPApplication;
+use SilverStripe\Control\HTTPRequestBuilder;
+use SilverStripe\Core\CoreKernel;
+use SilverStripe\Core\Startup\ErrorControlChainMiddleware;
 use SilverStripe\ORM\DB;
 
 /**
@@ -22,7 +26,6 @@ class Bootstrap
                 . 'SilverStripe root.', PHP_EOL;
             exit;
         }
-        $this->getDb();
     }
 
     /**
@@ -39,29 +42,29 @@ class Bootstrap
         if (defined('SILVERSTRIPE_ROOT_DIR')) {
             return true;
         }
+
         foreach ([getcwd(), CONSOLE_BASE_DIR . '/../', CONSOLE_BASE_DIR . '/silverstripe'] as $rootFolder) {
-            if (file_exists($rootFolder . '/framework/src/Core/Core.php')) {
+            if (file_exists($rootFolder . '/vendor/silverstripe/framework/src/Core/CoreKernel.php')) {
                 define('SILVERSTRIPE_ROOT_DIR', $rootFolder);
 
                 require_once $rootFolder . '/vendor/autoload.php';
-                require_once $rootFolder . '/framework/src/Core/Core.php';
+
+                $_SERVER['REQUEST_URI'] = '/';
+                $_SERVER['REQUEST_METHOD'] = 'GET';
+
+                // Build request and detect flush
+                $request = HTTPRequestBuilder::createFromEnvironment();
+
+                // Default application
+                $kernel = new CoreKernel(BASE_PATH);
+                $app = new HTTPApplication($kernel);
+                $app->addMiddleware(new ErrorControlChainMiddleware($app));
+                $response = $app->handle($request);
+
                 return true;
             }
         }
-        return false;
-    }
 
-    /**
-     * Get the SilverStripe DB connector
-     *
-     * @return $this
-     */
-    protected function getDb()
-    {
-        global $databaseConfig;
-        if ($databaseConfig) {
-            DB::connect($databaseConfig);
-        }
-        return $this;
+        return false;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace SilverLeague\Console\Command\Object;
 
+use function array_intersect_key;
 use SilverLeague\Console\Command\SilverStripeCommand;
+use SilverStripe\ORM\DataObject;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -49,19 +51,19 @@ TEXT
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $objectClass = $input->getArgument('object');
-        if (!class_exists($objectClass) || !is_subclass_of($objectClass, "SilverStripe\ORM\DataObject")) {
+        if (!class_exists($objectClass) || !is_subclass_of($objectClass, DataObject::class)) {
             $output->writeln('<error>' . $objectClass . ' does not exist, or is not a DataObject.</error>');
             return;
         }
 
         $id = $this->getId($input, $output, $objectClass);
         $data = $this->getData($input, $objectClass, $id);
+        // Remove passwords or salts
+        $data = array_diff_key($data, array_flip(['Password', 'Salt']));
+
         if (!$data) {
             $output->writeln('<error>' . $objectClass . ' with ID ' . $id . ' was not found.</error>');
             return;
@@ -106,8 +108,8 @@ TEXT
     protected function getData(InputInterface $input, $objectClass, $id)
     {
         $data = $objectClass::get()->byId($id);
-        if (!$data) {
-            return false;
+        if (!$data || !($data instanceof DataObject)) {
+            return [];
         }
         $data = $data->toMap();
 

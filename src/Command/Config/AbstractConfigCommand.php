@@ -4,9 +4,7 @@ namespace SilverLeague\Console\Command\Config;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverStripe\Config\Collections\ConfigCollectionInterface;
-use SilverStripe\Core\ClassInfo;
-use SilverStripe\Core\Config\ConfigLoader;
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Config\Config;
 
 /**
  * Provide base functionality for retrieving configuration from SilverStripe
@@ -23,6 +21,6 @@ class AbstractConfigCommand extends SilverStripeCommand
      */
     public function getConfig()
     {
-        return ConfigLoader::instance()->getManifest();
+        return Config::inst();
     }
 }

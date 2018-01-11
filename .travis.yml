@@ -4,11 +4,11 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
 
 before_install:
-  - travis_retry composer self-update
-  - travis_retry composer require silverstripe/framework ^4.0@dev
-  - travis_retry composer require phpunit/phpunit ^5.7
+  - composer self-update
+  - composer require silverstripe/framework ^4.0
 
 script:
   - php vendor/bin/phpunit --coverage-clover=coverage.xml

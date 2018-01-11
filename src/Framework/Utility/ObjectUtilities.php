@@ -17,7 +17,7 @@ trait ObjectUtilities
      * Get a ReflectionClass from the given class name
      *
      * @param  string $className
-     * @return ReflectionClass
+     * @return ReflectionClass|false
      */
     public function getReflection($className)
     {

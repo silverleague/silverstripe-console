@@ -21,7 +21,7 @@ class AbstractTaskCommand extends SilverStripeCommand
     protected $buildTask;
 
     /**
-     * Get the original SilverStrpe BuildTask used
+     * Get the original SilverStripe BuildTask used
      *
      * @return BuildTask
      */

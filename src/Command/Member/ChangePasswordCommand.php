@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Command\Member;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
+use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,6 +41,7 @@ class ChangePasswordCommand extends SilverStripeCommand
             return;
         }
 
+        /** @var Member $member */
         $member = Member::get()->filter('email', $email)->first();
         if (!$member) {
             $output->writeln('<error>Member with email "' . $email . '" was not found.');
@@ -48,9 +50,14 @@ class ChangePasswordCommand extends SilverStripeCommand
 
         /** @var ValidationResult $result */
         $result = $member->changePassword($password);
-        if (!$result->isValid()) {
-            $output->writeln('<error>Failed to save the new password.</error>');
+        if ($result->isValid()) {
+            $output->writeln('<info>Password updated.</info>');
+            return;
         }
-        $output->writeln('<info>Password updated.</info>');
+
+        $output->writeln('<error>Failed to save the new password.</error>');
+        foreach ($result->getMessages() as $messageDetails) {
+            $output->writeln('<error> * ' . $messageDetails['message'] . '</error>');
+        }
     }
 }
