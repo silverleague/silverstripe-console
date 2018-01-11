@@ -5,8 +5,6 @@ namespace SilverLeague\Console\Framework;
 use SilverStripe\Control\HTTPApplication;
 use SilverStripe\Control\HTTPRequestBuilder;
 use SilverStripe\Core\CoreKernel;
-use SilverStripe\Core\Startup\ErrorControlChainMiddleware;
-use SilverStripe\ORM\DB;
 
 /**
  * Loads and configures SilverStripe
@@ -52,14 +50,12 @@ class Bootstrap
                 $_SERVER['REQUEST_URI'] = '/';
                 $_SERVER['REQUEST_METHOD'] = 'GET';
 
-                // Build request and detect flush
                 $request = HTTPRequestBuilder::createFromEnvironment();
 
                 // Default application
                 $kernel = new CoreKernel(BASE_PATH);
                 $app = new HTTPApplication($kernel);
-                $app->addMiddleware(new ErrorControlChainMiddleware($app));
-                $response = $app->handle($request);
+                $app->handle($request);
 
                 return true;
             }
