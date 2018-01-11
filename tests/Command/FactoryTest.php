@@ -3,6 +3,7 @@
 namespace SilverLeague\Console\Tests\Command;
 
 use SilverLeague\Console\Command\Dev\Tasks\AbstractTaskCommand;
+use SilverLeague\Console\Command\Factory;
 use SilverLeague\Console\Framework\Scaffold;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
@@ -82,6 +83,30 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $tester = new CommandTester($command);
         $tester->execute([]);
+    }
+
+    /**
+     * Ensure that SilverStripe task URL segments are made "friendly"
+     *
+     * @param string $input
+     * @param string $expected
+     * @dataProvider segmentProvider
+     */
+    public function testGetFriendlySegment($input, $expected)
+    {
+        $this->assertSame($expected, $this->getFactory()->getFriendlySegment($input));
+    }
+
+    /**
+     * @return array[]
+     */
+    public function segmentProvider()
+    {
+        return [
+            ['SomeTask', 'some'],
+            ['Some\\Namespaced\\TaskName', 'some-namespaced-task-name'],
+            ['CleanupTestDatabasesTask', 'cleanup-test-databases'],
+        ];
     }
 
     /**

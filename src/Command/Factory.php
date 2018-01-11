@@ -66,6 +66,13 @@ class Factory extends ConsoleBase
         return sprintf('dev:tasks:%s', $segment);
     }
 
+    /**
+     * Convert the SilverStripe task names into a common, Symfony console style command with
+     * dashes between capital letters, backslashes removed and all lowercase
+     *
+     * @param string $segment
+     * @return string
+     */
     public function getFriendlySegment($segment)
     {
         // Convert backslashes (from namespaced classes) to dashes
