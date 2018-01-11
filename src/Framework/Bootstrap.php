@@ -24,7 +24,7 @@ class Bootstrap
         if (!$this->findSilverStripe()) {
             echo 'A SilverStripe installation could not be found. Please run ssconsole from your '
                 . 'SilverStripe root.', PHP_EOL;
-            exit;
+            exit(1);
         }
     }
 
