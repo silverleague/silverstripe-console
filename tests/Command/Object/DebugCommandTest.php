@@ -19,12 +19,28 @@ class DebugCommandTest extends AbstractCommandTest
     protected $member;
 
     /**
-     * Get a member to test with
+     * Create a Member to play with
      */
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
-        $this->member = Member::get()->first();
+
+        $member = Member::create();
+        $member->Email = 'unittest@example.com';
+        $member->Password = 'NotRelevant1';
+        $member->write();
+
+        $this->member = $member;
+    }
+
+    /**
+     * Delete fixtured members after tests have run
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->member->delete();
     }
 
     /**

@@ -8,7 +8,17 @@
  */
 
 define('CONSOLE_BASE_DIR', realpath(__DIR__ . '/..'));
-require CONSOLE_BASE_DIR . '/../../autoload.php';
+
+foreach ([
+    // Root project installation, i.e. Travis or global composer
+    realpath(CONSOLE_BASE_DIR . '/vendor/autoload.php'),
+    // Installed as a vendor module in a project
+    realpath(CONSOLE_BASE_DIR . '/../../autoload.php'),
+] as $vendorPath) {
+    if (file_exists($vendorPath)) {
+        require_once($vendorPath);
+    }
+}
 
 $scaffold = new \SilverLeague\Console\Framework\Scaffold;
 $scaffold->run();

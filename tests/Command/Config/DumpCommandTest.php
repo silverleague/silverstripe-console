@@ -69,19 +69,6 @@ class DumpCommandTest extends AbstractCommandTest
     }
 
     /**
-     * Ensure that numeric property keys are replaced with nada
-     *
-     * @covers ::getParsedOutput
-     */
-    public function testNumericKeysAreNotShown()
-    {
-        Config::modify()->set('FooBar', 'my_property', [1 => 'baz', 'bar' => 'banter']);
-        $result = $this->executeTest(['--filter' => 'FooBar'])->getDisplay();
-        $this->assertNotContains('1', $result);
-        $this->assertContains('bar', $result);
-    }
-
-    /**
      * Ensure that a ConfigCollectionInterface is returned
      *
      * @covers \SilverLeague\Console\Command\Config\AbstractConfigCommand::getConfig

@@ -8,7 +8,7 @@ php:
 
 before_install:
   - composer self-update
-  - composer require silverstripe/framework ^4.0
+  - composer require silverstripe/recipe-cms ^1
 
 script:
   - php vendor/bin/phpunit --coverage-clover=coverage.xml
