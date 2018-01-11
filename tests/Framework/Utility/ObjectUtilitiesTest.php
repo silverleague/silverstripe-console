@@ -84,7 +84,7 @@ class ObjectUtilitiesTest extends \PHPUnit_Framework_TestCase
         $project = Config::inst()->get(ModuleManifest::class, 'project');
         return [
             [$project, $project, 'silverleague/ssconsole'],
-            [$project, 'framework', 'silverstripe/framework']
+            [$project, 'vendor/silverstripe/framework', 'silverstripe/framework']
         ];
     }
 
