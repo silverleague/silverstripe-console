@@ -39,7 +39,7 @@ class LookupCommand extends SilverStripeCommand
         $resolvedTo = get_class(Injector::inst()->get($object));
 
         $output->writeln('<comment>' . $object . '</comment> resolves to <info>' . $resolvedTo . '</info>');
-        if ($module = $this->getModuleName($object)) {
+        if ($module = $this->getModuleName($resolvedTo)) {
             $output->writeln('<info>Module:</info> <comment>' . $module . '</comment>');
         }
     }
