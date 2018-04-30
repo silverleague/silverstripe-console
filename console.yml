@@ -13,6 +13,8 @@ Commands:
   - SilverLeague\Console\Command\Member\ChangeGroupsCommand
   - SilverLeague\Console\Command\Member\ChangePasswordCommand
   - SilverLeague\Console\Command\Member\CreateCommand
+  - SilverLeague\Console\Command\Member\LockCommand
+  - SilverLeague\Console\Command\Member\UnlockCommand
   - SilverLeague\Console\Command\Object\ChildrenCommand
   - SilverLeague\Console\Command\Object\DebugCommand
   - SilverLeague\Console\Command\Object\ExtensionsCommand

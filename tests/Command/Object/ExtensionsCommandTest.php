@@ -4,8 +4,7 @@ namespace SilverLeague\Console\Tests\Command\Object;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Assets\AssetControlExtension;
-use SilverStripe\Forms\GridField\GridFieldDetailForm;
-use SilverStripe\Versioned\VersionedGridFieldDetailForm;
+use SilverStripe\Security\Member;
 
 /**
  * @coversDefaultClass \SilverLeague\Console\Command\Object\ExtensionsCommand
@@ -26,10 +25,10 @@ class ExtensionsCommandTest extends AbstractCommandTest
      */
     public function testExecute()
     {
-        $tester = $this->executeTest(['object'  => GridFieldDetailForm::class]);
+        $tester = $this->executeTest(['object' => Member::class]);
         $output = $tester->getDisplay();
-        $this->assertContains(VersionedGridFieldDetailForm::class, $output);
-        $this->assertContains('silverstripe/versioned', $output);
+        $this->assertContains(AssetControlExtension::class, $output);
+        $this->assertContains('silverstripe/assets', $output);
     }
 
     /**
