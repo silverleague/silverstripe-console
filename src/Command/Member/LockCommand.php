@@ -2,7 +2,6 @@
 
 namespace SilverLeague\Console\Command\Member;
 
-use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Security\Member;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
-class LockCommand extends SilverStripeCommand
+class LockCommand extends AbstractMemberCommand
 {
     protected function configure()
     {
@@ -27,16 +26,8 @@ class LockCommand extends SilverStripeCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $email = $this->getOrAskForArgument($input, $output, 'email', 'Enter email address: ');
-        if (empty($email)) {
-            $output->writeln('<error>Please enter an email address.</error>');
-            return;
-        }
-
-        /** @var Member $member */
-        $member = Member::get()->filter('email', $email)->first();
+        $member = $this->getMember($input, $output);
         if (!$member) {
-            $output->writeln('<error>Member with email "' . $email . '" was not found.');
             return;
         }
 
@@ -45,7 +36,7 @@ class LockCommand extends SilverStripeCommand
         $member->FailedLoginCount = 0;
         $member->write();
 
-        $output->writeln('Member <info>' . $email . '</info> locked for <info>' . $lockoutMins . ' mins.</info>');
+        $output->writeln('Member <info>' . $member->Email . '</info> locked for <info>' . $lockoutMins . ' mins.</info>');
     }
 }
 

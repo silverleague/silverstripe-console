@@ -49,6 +49,13 @@ class CreateCommand extends SilverStripeCommand
             return;
         }
 
+        // Check for existing member
+        $member = Member::get()->filter(['Email' => $data['Email']])->first();
+        if ($member) {
+            $output->writeln('<error>Member already exists with email address: ' . $data['Email']);
+            return;
+        }
+
         $member = Member::create();
         foreach ($data as $key => $value) {
             $member->setField($key, $value);
