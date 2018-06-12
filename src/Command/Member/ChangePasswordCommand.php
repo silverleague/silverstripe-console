@@ -2,9 +2,7 @@
 
 namespace SilverLeague\Console\Command\Member;
 
-use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverStripe\ORM\ValidationResult;
-use SilverStripe\Security\Member;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
-class ChangePasswordCommand extends SilverStripeCommand
+class ChangePasswordCommand extends AbstractMemberCommand
 {
     /**
      * {@inheritDoc}
@@ -41,10 +39,8 @@ class ChangePasswordCommand extends SilverStripeCommand
             return;
         }
 
-        /** @var Member $member */
-        $member = Member::get()->filter('email', $email)->first();
+        $member = $this->getMember($input, $output);
         if (!$member) {
-            $output->writeln('<error>Member with email "' . $email . '" was not found.');
             return;
         }
 

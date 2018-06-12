@@ -7,7 +7,7 @@
 It is recommended to install this module globally with composer:
 
 ```shell
-composer global require silverleague/console
+composer global require silverleague/ssconsole
 ```
 
 Ensure your composer's `bin` folder has been added to your system path.
@@ -17,7 +17,7 @@ Ensure your composer's `bin` folder has been added to your system path.
 You can still require this module as a project dependency if you don't want to install it globally, of course:
 
 ```shell
-composer require --dev silverleague/console
+composer require --dev silverleague/ssconsole
 $ vendor/bin/ssconsole
 ```
 

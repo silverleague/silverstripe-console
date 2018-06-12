@@ -26,6 +26,8 @@ This documentation section contains instructions and examples of the commands bu
 * [`member:change-groups`](commands/member-change-groups.md): Change a member's groups
 * [`member:change-password`](commands/member-change-password.md): Change a member's password
 * [`member:create`](commands/member-create.md): Create a new member, and optionally add them to groups
+* [`member:lock`](commands/member-lock.md): Lock a member
+* [`member:unlock`](commands/member-unlock.md): Unlock a member
 
 ### Object debugging
 

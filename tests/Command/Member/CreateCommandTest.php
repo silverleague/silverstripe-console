@@ -50,14 +50,19 @@ class CreateCommandTest extends AbstractCommandTest
 
         $this->command->getApplication()->getHelperSet()->set($questionHelper, 'question');
 
-        $tester = $this->executeTest(
-            [
-                'email'    => 'unittest@example.com',
-                'password' => 'OpenSe$am3!'
-            ]
-        );
+        $tester = $this->executeTest([
+            'email'    => 'unittest@example.com',
+            'password' => 'OpenSe$am3!',
+        ]);
         $output = $tester->getDisplay();
         $this->assertContains('Member created', $output);
+
+        $tester = $this->executeTest([
+            'email'    => 'unittest@example.com',
+            'password' => 'OpenSe$am3!',
+        ]);
+        $output = $tester->getDisplay();
+        $this->assertContains('Member already exists', $output);
     }
 
     /**
