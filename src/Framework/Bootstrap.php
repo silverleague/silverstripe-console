@@ -49,6 +49,7 @@ class Bootstrap
 
                 $_SERVER['REQUEST_URI'] = '/';
                 $_SERVER['REQUEST_METHOD'] = 'GET';
+                $_SERVER['SERVER_PROTOCOL'] = 'http';
 
                 $request = HTTPRequestBuilder::createFromEnvironment();
 
