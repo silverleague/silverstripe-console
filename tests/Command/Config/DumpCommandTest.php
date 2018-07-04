@@ -4,7 +4,6 @@ namespace SilverLeague\Console\Tests\Command\Config;
 
 use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\Config\Collections\ConfigCollectionInterface;
-use SilverStripe\Control\RequestHandler;
 use SilverStripe\Core\Config\Config;
 
 /**
@@ -50,7 +49,7 @@ class DumpCommandTest extends AbstractCommandTest
     public function testExecuteWithFilteredResults()
     {
         $result = $this->executeTest(['--filter' => 'ViewableData'])->getDisplay();
-        $this->assertContains( RequestHandler::class, $result);
+        $this->assertContains('silverstripe\\dev\\buildtask', $result);
         $this->assertNotContains('silverstripe\\core\\injector\\injector', $result);
     }
 
