@@ -18,11 +18,7 @@
     "bin": [
         "bin/ssconsole"
     ],
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
+    "extra": [],
     "autoload": {
         "psr-4": {
             "SilverLeague\\Console\\": "src/",
