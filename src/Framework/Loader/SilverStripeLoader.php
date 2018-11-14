@@ -2,6 +2,7 @@
 
 namespace SilverLeague\Console\Framework\Loader;
 
+use ReflectionClass;
 use SilverLeague\Console\Command\Factory;
 use SilverLeague\Console\Framework\ConsoleBase;
 use SilverStripe\Core\ClassInfo;
@@ -30,6 +31,10 @@ class SilverStripeLoader extends ConsoleBase
         array_shift($tasks);
 
         foreach ($tasks as $taskClass) {
+            if ($this->taskIsAbstract($taskClass)) {
+                continue;
+            }
+
             $task = Injector::inst()->get($taskClass);
             if ($command = $this->getCommandFactory()->getCommandFromTask($task)) {
                 $commands[] = $command;
@@ -47,5 +52,17 @@ class SilverStripeLoader extends ConsoleBase
     public function getCommandFactory()
     {
         return new Factory($this->getApplication());
+    }
+
+    /**
+     * Check whether the given task class is abstract
+     *
+     * @param string $className
+     * @return bool
+     */
+    protected function taskIsAbstract($className)
+    {
+        $reflection = new ReflectionClass($className);
+        return $reflection->isAbstract();
     }
 }
