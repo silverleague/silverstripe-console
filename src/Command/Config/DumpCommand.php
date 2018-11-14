@@ -2,7 +2,6 @@
 
 namespace SilverLeague\Console\Command\Config;
 
-use SilverLeague\Console\Command\Config\AbstractConfigCommand;
 use SilverStripe\Core\Convert;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;

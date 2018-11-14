@@ -2,9 +2,8 @@
 
 namespace SilverLeague\Console\Command\Config;
 
-use SilverLeague\Console\Command\Config\AbstractConfigCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

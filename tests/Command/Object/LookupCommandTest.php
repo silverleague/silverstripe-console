@@ -8,7 +8,7 @@ use SilverLeague\Console\Tests\Command\AbstractCommandTest;
 use SilverStripe\ORM\DataObject;
 
 /**
- * @coversDefaultClass \SilverLeague\Console\Command\Object\LookupCommand
+ * @coversDefaultClass \SilverLeague\Console\Command\Injector\LookupCommand
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
  */
@@ -16,7 +16,7 @@ class LookupCommandTest extends AbstractCommandTest
 {
     protected function getTestCommand()
     {
-        return 'object:lookup';
+        return 'injector:lookup';
     }
 
     /**
@@ -26,14 +26,14 @@ class LookupCommandTest extends AbstractCommandTest
      */
     public function testExecuteWithRegularDependency()
     {
-        $tester = $this->executeTest(['object' => LoggerInterface::class]);
+        $tester = $this->executeTest(['className' => LoggerInterface::class]);
         $output = $tester->getDisplay();
         $this->assertContains(Logger::class, $output);
     }
 
     public function testExecuteWithSilverStripeClass()
     {
-        $tester = $this->executeTest(['object' => DataObject::class]);
+        $tester = $this->executeTest(['className' => DataObject::class]);
         $output = $tester->getDisplay();
         $this->assertContains(DataObject::class, $output);
         $this->assertContains('silverstripe/framework', $output);
@@ -46,6 +46,6 @@ class LookupCommandTest extends AbstractCommandTest
      */
     public function testConfigure()
     {
-        $this->assertTrue($this->command->getDefinition()->hasArgument('object'));
+        $this->assertTrue($this->command->getDefinition()->hasArgument('className'));
     }
 }

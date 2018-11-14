@@ -21,6 +21,10 @@ This documentation section contains instructions and examples of the commands bu
 * [`dev:build`](commands/dev-build.md): Builds the SilverStripe database
 * [`dev:task:{task-name}`](commands/dev-tasks.md): Run a native SilverStripe task (automatically populated)
 
+### Injector
+
+* [`injector:lookup`](commands/injector-lookup.md): Shows which class is returned from an Injector reference
+
 ### Membership
 
 * [`member:change-groups`](commands/member-change-groups.md): Change a member's groups
@@ -33,5 +37,4 @@ This documentation section contains instructions and examples of the commands bu
 
 * [`object:children`](commands/object-children.md): List all child classes of a given class, e.g. "Page"
 * [`object:debug`](commands/object-debug.md): Outputs a visual representation of a DataObject
-* [`object:extensions`](commands/object-extensions.md): List all Extensions of a given Object, e.g. "Page"
-* [`object:lookup`](commands/object-lookup.md): Shows which Object is returned from the Injector
+* [`object:extensions`](commands/object-extensions.md): List all Extensions of a given class, e.g. "Page"

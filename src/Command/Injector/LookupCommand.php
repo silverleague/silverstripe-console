@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverLeague\Console\Command\Object;
+namespace SilverLeague\Console\Command\Injector;
 
 use SilverLeague\Console\Command\SilverStripeCommand;
 use SilverLeague\Console\Framework\Utility\ObjectUtilities;
@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Shows which Object is returned from the Injector
+ * Shows which class is returned from the Injector
  *
  * @package silverstripe-console
  * @author  Robbie Averill <robbie@averill.co.nz>
@@ -25,9 +25,10 @@ class LookupCommand extends SilverStripeCommand
     protected function configure()
     {
         $this
-            ->setName('object:lookup')
-            ->setDescription('Shows which Object is returned from the Injector')
-            ->addArgument('object', InputArgument::REQUIRED, 'The Object to look up');
+            ->setName('injector:lookup')
+            ->setAliases(['object:lookup'])
+            ->setDescription('Shows which class is returned from an Injector reference')
+            ->addArgument('className', InputArgument::REQUIRED, 'The class name to look up');
     }
 
     /**
@@ -35,10 +36,10 @@ class LookupCommand extends SilverStripeCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $object = $input->getArgument('object');
-        $resolvedTo = get_class(Injector::inst()->get($object));
+        $className = $input->getArgument('className');
+        $resolvedTo = get_class(Injector::inst()->get($className));
 
-        $output->writeln('<comment>' . $object . '</comment> resolves to <info>' . $resolvedTo . '</info>');
+        $output->writeln('<comment>' . $className . '</comment> resolves to <info>' . $resolvedTo . '</info>');
         if ($module = $this->getModuleName($resolvedTo)) {
             $output->writeln('<info>Module:</info> <comment>' . $module . '</comment>');
         }
