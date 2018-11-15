@@ -32,7 +32,7 @@ NAME;
      * The application version (semver)
      * @var string
      */
-    const APPLICATION_VERSION = '1.0.1';
+    const APPLICATION_VERSION = '1.1.0';
 
     /**
      * The SilverStripe Loader class
