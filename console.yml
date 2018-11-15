@@ -10,6 +10,7 @@ Commands:
   - SilverLeague\Console\Command\Config\DumpCommand
   - SilverLeague\Console\Command\Config\GetCommand
   - SilverLeague\Console\Command\Dev\BuildCommand
+  - SilverLeague\Console\Command\Injector\LookupCommand
   - SilverLeague\Console\Command\Member\ChangeGroupsCommand
   - SilverLeague\Console\Command\Member\ChangePasswordCommand
   - SilverLeague\Console\Command\Member\CreateCommand
@@ -18,4 +19,3 @@ Commands:
   - SilverLeague\Console\Command\Object\ChildrenCommand
   - SilverLeague\Console\Command\Object\DebugCommand
   - SilverLeague\Console\Command\Object\ExtensionsCommand
-  - SilverLeague\Console\Command\Object\LookupCommand
