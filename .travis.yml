@@ -9,6 +9,8 @@ matrix:
     - php: 7.1
       env: DB=MYSQL RECIPE_VERSION=4.2.x-dev
     - php: 7.2
+      env: DB=MYSQL RECIPE_VERSION=4.3.x-dev
+    - php: 7.2
       env: DB=MYSQL RECIPE_VERSION=4.x-dev
 
 before_install:
